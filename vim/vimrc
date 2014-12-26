@@ -1,0 +1,287 @@
+" Vimrc file
+" Sven Axelsson <sven@axelsson.name>
+"
+" Completely rewritten using Vundle instead of Pathogen.
+" Many bundles I rarely (never) used have been removed.
+" Others have been added (maybe still too many).
+
+set nocompatible
+filetype off
+
+" Plugin loading ------------------------------------------------------------
+" Add simple configurations directly below each plugin, more complicated
+" stuff in a separate section further down.
+
+" Set the runtime path to include Vundle and initialize.
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'altercation/vim-colors-solarized' "{{{
+let g:solarized_menu=0
+let g:solarized_hitrail=1
+" }}}
+
+Plugin 'bling/vim-airline' " {{{
+" Use Unicode characters so I can use an unpatched font.
+let g:airline_exclude_preview=1
+let g:airline_left_sep = '▶'
+let g:airline_left_alt_sep = '>'
+let g:airline_right_sep = '◀'
+let g:airline_right_alt_sep = '<'
+
+if !exists('g:airline_symbols')
+    " This seems to be the case when running in a terminal window.
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.readonly = '◆'
+" }}}
+
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'glts/vim-textobj-comment'
+Plugin 'jceb/vim-orgmode'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'joonty/vim-phpunitqf'
+
+Plugin 'junegunn/vim-easy-align' " {{{
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
+nmap <Leader>a <Plug>(EasyAlign)
+" }}}
+
+Plugin 'justinmk/vim-sneak' " {{{
+let g:sneak#streak = 1
+" }}}
+
+Plugin 'kana/vim-textobj-user'
+Plugin 'kristijanhusak/vim-multiple-cursors'
+
+Plugin 'majutsushi/tagbar' " {{{
+nnoremap <silent> <F4> :TagbarToggle<CR>
+" }}}
+
+Plugin 'mhinz/vim-signify' " {{{
+let g:signify_vcs_list = [ 'git', 'svn' ]
+" }}}
+
+Plugin 'moll/vim-bbye' " {{{
+map <leader>q :Bdelete<CR>
+" }}}
+
+Plugin 'nelstrom/vim-visual-star-search'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Raimondi/delimitMate'
+Plugin 'rking/ag.vim'
+
+Plugin 'scrooloose/nerdtree' " {{{
+nnoremap <silent> <F3> :NERDTreeToggle<CR>
+" }}}
+
+Plugin 'scrooloose/syntastic' " {{{
+let g:syntastic_check_on_open=1
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_php_checkers = ['php']
+" }}}
+
+Plugin 'Shougo/context_filetype.vim'
+
+Plugin 'SirVer/ultisnips' " {{{
+let g:snips_author = "Sven Axelsson"
+let g:snips_email = "sven@textalk.se"
+let g:ultisnips_java_brace_style = "nl"
+
+let g:UltiSnipsExpandTrigger = "<C-j>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+let g:UltiSnipsEditSplit = "vertical"
+" }}}
+
+Plugin 'sjl/gundo.vim' " {{{
+nnoremap <F2> :GundoToggle<CR>
+" }}}
+
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tomtom/tcomment_vim'
+
+Plugin 'tpope/vim-fugitive' " {{{
+" Get rid of buffers opened when browsing the Git tree.
+autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd User fugitive
+  \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
+  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \ endif
+" }}}
+
+Plugin 'tpope/vim-ragtag' " {{{
+let g:ragtag_global_maps=1
+" }}}
+
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'vim-pandoc/vim-pandoc' " {{{
+" I hate that everything is folded by default.
+let g:pandoc#folding#level=99
+let g:pandoc#spell#enabled=0
+" }}}
+
+Plugin 'vim-pandoc/vim-pandoc-syntax' " {{{
+let g:pandoc#syntax#conceal#use=0
+" }}}
+
+Plugin 'vim-php/tagbar-phpctags.vim'
+Plugin 'vim-scripts/PreserveNoEOL' " Needed by editorconfig
+Plugin 'wincent/command-t'
+
+call vundle#end()
+
+" General settings ----------------------------------------------------------
+
+filetype plugin indent on
+syntax on
+
+" Encodings
+set encoding=utf-8
+set fileencoding=utf-8
+
+" Tmp dirs
+set backupdir=/tmp
+set directory=/tmp
+
+" Buffers
+set autoread
+set hidden
+set nobackup
+set switchbuf=useopen,usetab,newtab
+
+" Tab defaults
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set shiftround
+set expandtab
+
+" Display behavior
+set list
+set listchars=tab:▸\ ,trail:·,eol:¬,extends:↩︎,precedes:↪︎
+set backspace=indent,eol,start
+set laststatus=2
+set splitbelow
+set splitright
+
+" Diff options
+set diffopt=vertical
+
+" Indent behaviour
+set autoindent
+set smartindent
+"set formatprg=par
+"set formatoptions=w78
+
+" Search behaviour
+set ignorecase
+set smartcase
+set incsearch
+set showmatch
+set hlsearch
+set wildmenu
+set wildmode=list:longest,full
+set wildignore=*.o,*.obj,*.pyc,**/.git/*,**/.svn/*
+
+" Visuals
+set background=light
+set nowrap
+set number
+set ruler
+set scrolloff=3
+set showcmd
+set noshowmode
+set visualbell t_vb=
+
+" Kill preview buffer
+autocmd CompleteDone * pclose
+
+" Configs for GUI app or terminal with more than 2 colors.
+if has("gui_running")
+    " Extra spacing between lines. Needed for some fonts.
+    set linespace=2
+    " No scroll bars, ever!
+    set guioptions-=L
+    set guioptions-=l
+    set guioptions-=R
+    set guioptions-=r
+else
+    set t_Co=256
+endif
+
+set guifont=Menlo:h14
+" set guifont=Source\ Code\ Pro:h13
+" Patched font for Powerline/Airline.
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h13
+
+set cursorline
+autocmd WinLeave * setlocal nocursorline
+autocmd WinEnter * setlocal cursorline
+
+colorscheme solarized
+
+
+" Key mappings --------------------------------------------------------------
+
+" Move current line down/up
+map <M-D-Down> ]e
+map <M-D-Up> [e
+
+" Move visually selected lines down/up
+vmap <M-D-Down> ]egv
+vmap <M-D-Up> [egv
+
+" Move visual selection back/forwards
+vmap <M-D-Left> x<BS>P`[v`]
+vmap <M-D-Right> x<Space>P`[v`]
+
+" Toggles & Switches
+nmap <silent> <leader>l :set list!<CR>
+nmap <silent> <leader>w :set wrap!<CR>
+nmap <silent> <leader>s :set spell!<CR>
+nmap <silent> <leader>/ :silent :nohlsearch<CR>
+command! -nargs=* Wrap set wrap linebreak nolist
+
+" Edit .vimrc
+map <leader>vv :tabe $MYVIMRC<CR>
+map <leader>vs :source $MYVIMRC<CR>
+
+" Shortcuts for opening file in same directory as current file
+cabbrev %% =expand("%:p:h")
+map <leader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>es :sp <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>ev :vsp <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>et :tabe <C-R>=expand("%:p:h") . "/" <CR>
+
+" Buffer stuff
+nmap <SwipeLeft> :bprevious<CR>
+nmap <SwipeRight> :bnext<CR>
+
+" Pad a line with the last character as filler.
+map <leader>= $x78p78<Bar>D
+
+" Remove extra spaces between words
+nmap <leader>- ciw <Esc>
+
+" Reformat current paragraph or selection
+vmap Q gq
+nmap Q gqap
+
+" Load all extra config -----------------------------------------------------
+
+set runtimepath+=/Applications/LilyPond.app/Contents/Resources/share/lilypond/current/vim
+
+" runtime! config/*.vim

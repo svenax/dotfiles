@@ -1,0 +1,10 @@
+elpa/
+eshell/
+var/
+.mc-lists.el
+.places
+ac-comphist.dat
+bookmarks
+ido.last
+SessionDesktop.el
+tramp

@@ -1,0 +1,59 @@
+snippet this "Insert $this->" w
+\$this->$0
+endsnippet
+
+snippet xvd "var_dump"
+var_dump('-------- ' . __METHOD__, $0);
+endsnippet
+
+snippet class "Class template" b
+class ${1:Name}
+{
+	public function __construct($2)
+	{
+		${3:// Implement me}
+	}
+
+	${4:func}
+}
+endsnippet
+
+snippet func "Function template" b
+${1:public }function ${2:name}($3)
+{
+	${4:// Implement me}
+}
+endsnippet
+
+snippet getset "Getter/setter functions" b
+public function get${1:Name}()
+{
+	return \$this->${1/^./\l$0/};
+ 
+
+public function set$1(\$value)
+{
+	\$this->${1/^./\l$0/} = \$value;
+	return \$this;
+}
+endsnippet
+
+snippet testclass "PHPUnit test class"
+class ${1:name}Test extends PHPUnit_Framework_TestCase
+{
+	protected function setUp()
+	{
+		// Set up
+	}
+
+	protected function tearDown()
+	{
+		// Tear down
+	}
+
+	public function test${2:SomeTest}()
+	{
+		$this->assertEquals(${3:'Expected'}, ${4:someTest()});
+	}
+}
+endsnippet
