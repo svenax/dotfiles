@@ -34,7 +34,6 @@ export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 paths=(
     '~/bin'
     "$(brew --prefix qt5)/bin"
-    "$(brew --prefix homebrew/php/php55)/bin"
     '/usr/texbin'
     '/usr/local/bin'
     '/usr/local/sbin'
@@ -85,6 +84,8 @@ cdbrew() {
 }
 
 # External scripts ===========================================================
+
+. $(brew --prefix php-version)/php-version.sh && php-version 5.5
 
 if [ $TERM != 'dumb' ]; then
     GIT_PROMPT_THEME=Solarized
