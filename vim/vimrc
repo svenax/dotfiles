@@ -42,11 +42,15 @@ let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.readonly = '◆'
 " }}}
 
+Plugin 'eagletmt/neco-ghc' " {{{
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" }}}
+
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'embear/vim-foldsearch'
 Plugin 'glts/vim-textobj-comment'
 Plugin 'jceb/vim-orgmode'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'joonty/vim-phpunitqf'
 
 Plugin 'junegunn/vim-easy-align' " {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -77,6 +81,13 @@ map <leader>q :Bdelete<CR>
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
+
+Plugin 'rayburgemeestre/phpfolding.vim' " {{{
+let g:DisableAutoPHPFolding = 1
+nmap <silent> zp :EnablePHPFolds<CR>
+nmap <silent> zP :DisablePHPFolds<CR>
+" }}}
+
 Plugin 'rking/ag.vim'
 
 Plugin 'scrooloose/nerdtree' " {{{
@@ -84,7 +95,7 @@ nnoremap <silent> <F3> :NERDTreeToggle<CR>
 " }}}
 
 Plugin 'scrooloose/syntastic' " {{{
-let g:syntastic_check_on_open=1
+let g:syntastic_check_on_open = 1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_php_checkers = ['php']
 " }}}
@@ -95,10 +106,9 @@ Plugin 'SirVer/ultisnips' " {{{
 let g:snips_author = "Sven Axelsson"
 let g:snips_email = "sven@textalk.se"
 let g:ultisnips_java_brace_style = "nl"
-
-let g:UltiSnipsExpandTrigger = "<C-j>"
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit = "vertical"
 " }}}
 
@@ -125,7 +135,12 @@ let g:ragtag_global_maps=1
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'travitch/hasksyn'
+
+Plugin 'Valloric/YouCompleteMe' " {{{
+let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+" }}}
 
 Plugin 'vim-pandoc/vim-pandoc' " {{{
 " I hate that everything is folded by default.
@@ -196,6 +211,10 @@ set wildmenu
 set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*.pyc,**/.git/*,**/.svn/*
 
+" Fold behaviour
+set foldopen=all
+set foldclose=all
+
 " Visuals
 set background=light
 set nowrap
@@ -252,7 +271,7 @@ vmap <M-D-Right> x<Space>P`[v`]
 nmap <silent> <leader>l :set list!<CR>
 nmap <silent> <leader>w :set wrap!<CR>
 nmap <silent> <leader>s :set spell!<CR>
-nmap <silent> <leader>/ :silent :nohlsearch<CR>
+nmap <silent> <BS> :silent :nohlsearch<CR>
 command! -nargs=* Wrap set wrap linebreak nolist
 
 " Edit .vimrc
@@ -279,6 +298,9 @@ nmap <leader>- ciw <Esc>
 " Reformat current paragraph or selection
 vmap Q gq
 nmap Q gqap
+
+" Default to very magic mode
+nnoremap / /\v
 
 " Load all extra config -----------------------------------------------------
 
