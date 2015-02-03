@@ -16,7 +16,7 @@ filetype off
 set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
+" Let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'altercation/vim-colors-solarized' "{{{
@@ -40,6 +40,10 @@ let g:airline_symbols.linenr = '¶'
 let g:airline_symbols.branch = '⎇'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.readonly = '◆'
+" }}}
+
+Plugin 'brianclements/vim-popwindow' " {{{
+nnoremap <silent> <C-w><BS> :PopWindow<CR>
 " }}}
 
 Plugin 'eagletmt/neco-ghc' " {{{
@@ -71,6 +75,7 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 " }}}
 
 Plugin 'mattn/emmet-vim'
+
 Plugin 'mhinz/vim-signify' " {{{
 let g:signify_vcs_list = [ 'git', 'svn' ]
 " }}}
@@ -253,6 +258,10 @@ autocmd WinEnter * setlocal cursorline
 
 colorscheme solarized
 
+" Automatically exit insert mode after 10 seconds idle
+autocmd InsertEnter * let updaterestore=&updatetime | set updatetime=10000
+autocmd InsertLeave * let &updatetime=updaterestore
+autocmd CursorHoldI * stopinsert
 
 " Neater fold text display
 function! NeatFoldText()
