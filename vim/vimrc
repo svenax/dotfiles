@@ -23,7 +23,6 @@ Plugin 'altercation/vim-colors-solarized' "{{{
 let g:solarized_menu=0
 let g:solarized_hitrail=1
 " }}}
-
 Plugin 'bling/vim-airline' " {{{
 " Use Unicode characters so I can use an unpatched font.
 let g:airline_exclude_preview=1
@@ -41,73 +40,56 @@ let g:airline_symbols.branch = '⎇'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.readonly = '◆'
 " }}}
-
 Plugin 'brianclements/vim-popwindow' " {{{
 nnoremap <silent> <C-w><BS> :PopWindow<CR>
 " }}}
-
 Plugin 'eagletmt/neco-ghc' " {{{
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " }}}
-
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'embear/vim-foldsearch'
 Plugin 'glts/vim-textobj-comment'
 Plugin 'jceb/vim-orgmode'
 Plugin 'jelera/vim-javascript-syntax'
-
 Plugin 'junegunn/vim-easy-align' " {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. <Leader>aip)
 nmap <Leader>a <Plug>(EasyAlign)
 " }}}
-
 Plugin 'justinmk/vim-sneak' " {{{
 let g:sneak#streak = 1
 " }}}
-
 Plugin 'kana/vim-textobj-user'
 Plugin 'kristijanhusak/vim-multiple-cursors'
-
 Plugin 'majutsushi/tagbar' " {{{
 nnoremap <silent> <F4> :TagbarToggle<CR>
 " }}}
-
 Plugin 'mattn/emmet-vim'
-
 Plugin 'mhinz/vim-signify' " {{{
 let g:signify_vcs_list = [ 'git', 'svn' ]
 " }}}
-
 Plugin 'moll/vim-bbye' " {{{
 map <leader>q :Bdelete<CR>
 " }}}
-
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
-
 Plugin 'rayburgemeestre/phpfolding.vim' " {{{
 let g:DisableAutoPHPFolding = 1
 nmap <silent> zp :EnablePHPFolds<CR>
 nmap <silent> zP :DisablePHPFolds<CR>
 " }}}
-
 Plugin 'rking/ag.vim'
-
 Plugin 'scrooloose/nerdtree' " {{{
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 " }}}
-
 Plugin 'scrooloose/syntastic' " {{{
 let g:syntastic_check_on_open = 1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_php_checkers = ['php']
 " }}}
-
 Plugin 'Shougo/context_filetype.vim'
-
 Plugin 'SirVer/ultisnips' " {{{
 let g:snips_author = "Sven Axelsson"
 let g:snips_email = "sven@textalk.se"
@@ -117,14 +99,11 @@ let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit = "vertical"
 " }}}
-
 Plugin 'sjl/gundo.vim' " {{{
 nnoremap <F2> :GundoToggle<CR>
 " }}}
-
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tomtom/tcomment_vim'
-
 Plugin 'tpope/vim-fugitive' " {{{
 " Get rid of buffers opened when browsing the Git tree.
 autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -133,31 +112,25 @@ autocmd User fugitive
   \   nnoremap <buffer> .. :edit %:h<CR> |
   \ endif
 " }}}
-
 Plugin 'tpope/vim-ragtag' " {{{
 let g:ragtag_global_maps=1
 " }}}
-
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'travitch/hasksyn'
-
 Plugin 'Valloric/YouCompleteMe' " {{{
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 " }}}
-
 Plugin 'vim-pandoc/vim-pandoc' " {{{
 " I hate that everything is folded by default.
 let g:pandoc#folding#level=99
 let g:pandoc#spell#enabled=0
 " }}}
-
 Plugin 'vim-pandoc/vim-pandoc-syntax' " {{{
 let g:pandoc#syntax#conceal#use=0
 " }}}
-
 Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/PreserveNoEOL' " Needed by editorconfig
 Plugin 'wincent/command-t'
