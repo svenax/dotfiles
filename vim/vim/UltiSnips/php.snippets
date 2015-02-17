@@ -26,12 +26,12 @@ ${1:public }function ${2:name}($3)
 endsnippet
 
 snippet getset "Getter/setter functions" b
-public function get${1:Name}()
+public function ${1:Name}()
 {
 	return \$this->${1/^./\l$0/};
- 
+}
 
-public function set$1(\$value)
+public function set${1/^./\u$0/}(\$value)
 {
 	\$this->${1/^./\l$0/} = \$value;
 	return \$this;

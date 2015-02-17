@@ -99,6 +99,9 @@
 (use-package php-mode
   :ensure php-mode
   :mode ("\\.\\(php\\|phtml\\)\\'" . php-mode))
+(use-package powerline
+  :ensure powerline
+  :init (powerline-default-theme))
 (use-package projectile
   :ensure projectile
   :init (progn (projectile-global-mode t)

@@ -24,21 +24,26 @@ let g:solarized_menu=0
 let g:solarized_hitrail=1
 " }}}
 Plugin 'bling/vim-airline' " {{{
-" Use Unicode characters so I can use an unpatched font.
-let g:airline_exclude_preview=1
-let g:airline_left_sep = '▶'
-let g:airline_left_alt_sep = '>'
-let g:airline_right_sep = '◀'
-let g:airline_right_alt_sep = '<'
+if has("gui_running")
+    let g:airline_powerline_fonts = 1
+else
+    let g:airline_powerline_fonts = 0
+    " Use Unicode characters so I can use an unpatched font.
+    let g:airline_exclude_preview=1
+    let g:airline_left_sep = '▶'
+    let g:airline_left_alt_sep = '>'
+    let g:airline_right_sep = '◀'
+    let g:airline_right_alt_sep = '<'
 
-if !exists('g:airline_symbols')
-    " This seems to be the case when running in a terminal window.
-    let g:airline_symbols = {}
+    if !exists('g:airline_symbols')
+        " This seems to be the case when running in a terminal window.
+        let g:airline_symbols = {}
+    endif
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.branch = '⎇'
+    let g:airline_symbols.paste = 'ρ'
+    let g:airline_symbols.readonly = '◆'
 endif
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.readonly = '◆'
 " }}}
 Plugin 'brianclements/vim-popwindow' " {{{
 nnoremap <silent> <C-w><BS> :PopWindow<CR>
@@ -48,6 +53,7 @@ let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " }}}
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'embear/vim-foldsearch'
+Plugin 'freitass/todo.txt-vim'
 Plugin 'glts/vim-textobj-comment'
 Plugin 'jceb/vim-orgmode'
 Plugin 'jelera/vim-javascript-syntax'
@@ -73,6 +79,7 @@ Plugin 'moll/vim-bbye' " {{{
 map <leader>q :Bdelete<CR>
 " }}}
 Plugin 'nelstrom/vim-visual-star-search'
+Plugin 'othree/xml.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rayburgemeestre/phpfolding.vim' " {{{
@@ -119,6 +126,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'travitch/hasksyn'
+Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/YouCompleteMe' " {{{
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
@@ -216,14 +224,14 @@ if has("gui_running")
     set guioptions-=l
     set guioptions-=R
     set guioptions-=r
+    " Patched font for Powerline/Airline.
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h14
 else
     set t_Co=256
+    set guifont=Menlo:h14
+    " set guifont=Source\ Code\ Pro:h14
 endif
 
-set guifont=Menlo:h14
-" set guifont=Source\ Code\ Pro:h13
-" Patched font for Powerline/Airline.
-" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h13
 
 set cursorline
 autocmd WinLeave * setlocal nocursorline
@@ -248,6 +256,10 @@ function! NeatFoldText()
   return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
 endfunction
 set foldtext=NeatFoldText()
+
+" Special file type handling ------------------------------------------------
+
+autocmd BufRead,BufNewFile */vpn/*.txt set filetype=pandoc
 
 " Key mappings --------------------------------------------------------------
 
@@ -290,6 +302,9 @@ map <leader>= $x78p78<Bar>D
 
 " Remove extra spaces between words
 nmap <leader>- ciw <Esc>
+
+" Fix encoding
+nmap <leader>ef :set ff=unix fenc=utf-8<CR>:write<CR>
 
 " Reformat current paragraph or selection
 vmap Q gq

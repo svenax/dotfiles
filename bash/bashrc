@@ -48,6 +48,18 @@ PATH=${PATH:1} # Remove leading colon
 export PATH
 unset paths    # Not needed anymore
 
+cdpaths=(
+    '.'
+    '/Sources/Work'
+    '/Sources/Svenax/PHP'
+    '/Sources/Svenax/C'
+)
+
+CDPATH=$(printf ":%s" "${cdpaths[@]}")
+CDPATH=${CDPATH:1} # Remove leading colon
+export CDPATH
+unset cdpaths    # Not needed anymore
+
 # Aliases ====================================================================
 
 alias ag='ag --pager "less -R"'
@@ -91,3 +103,4 @@ if [ $TERM != 'dumb' ]; then
     GIT_PROMPT_THEME=Solarized
     . $(brew --prefix bash-git-prompt)/share/gitprompt.sh
 fi
+. $(brew --prefix)/etc/bash_completion

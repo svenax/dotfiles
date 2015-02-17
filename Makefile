@@ -7,6 +7,7 @@ all: symlinks ensure_vundle update_vim
 symlinks:
 	ln -sf $(DIR)/bash/bash_profile ~/.bash_profile
 	ln -sf $(DIR)/bash/bashrc ~/.bashrc
+	ln -sf $(DIR)/bash/inputrc ~/.inputrc
 	ln -nsf $(DIR)/emacs/emacs.d ~/.emacs.d
 	ln -sf $(DIR)/git/gitconfig ~/.gitconfig
 	ln -sf $(DIR)/git/gitignore_global ~/.gitignore_global
