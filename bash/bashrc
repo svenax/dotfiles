@@ -50,6 +50,7 @@ unset paths    # Not needed anymore
 
 cdpaths=(
     '.'
+    '~/dotfiles'
     '/Sources/Work'
     '/Sources/Svenax/PHP'
     '/Sources/Svenax/C'
@@ -103,4 +104,4 @@ if [ $TERM != 'dumb' ]; then
     GIT_PROMPT_THEME=Solarized
     . $(brew --prefix bash-git-prompt)/share/gitprompt.sh
 fi
-. $(brew --prefix)/etc/bash_completion
+# . $(brew --prefix)/etc/bash_completion
