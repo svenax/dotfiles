@@ -23,6 +23,7 @@ Plugin 'altercation/vim-colors-solarized' "{{{
 let g:solarized_menu=0
 let g:solarized_hitrail=1
 " }}}
+Plugin 'artoj/qmake-syntax-vim'
 Plugin 'bling/vim-airline' " {{{
 if has("gui_running")
     let g:airline_powerline_fonts = 1
@@ -48,6 +49,8 @@ endif
 Plugin 'brianclements/vim-popwindow' " {{{
 nnoremap <silent> <C-w><BS> :PopWindow<CR>
 " }}}
+Plugin 'derekwyatt/vim-fswitch'
+Plugin 'derekwyatt/vim-scala'
 Plugin 'eagletmt/neco-ghc' " {{{
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 " }}}
@@ -55,7 +58,6 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'embear/vim-foldsearch'
 Plugin 'freitass/todo.txt-vim'
 Plugin 'glts/vim-textobj-comment'
-Plugin 'jceb/vim-orgmode'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'junegunn/vim-easy-align' " {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -71,12 +73,8 @@ Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'majutsushi/tagbar' " {{{
 nnoremap <silent> <F4> :TagbarToggle<CR>
 " }}}
-Plugin 'mattn/emmet-vim'
 Plugin 'mhinz/vim-signify' " {{{
 let g:signify_vcs_list = [ 'git', 'svn' ]
-" }}}
-Plugin 'moll/vim-bbye' " {{{
-map <leader>q :Bdelete<CR>
 " }}}
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'othree/xml.vim'
@@ -88,6 +86,7 @@ nmap <silent> zp :EnablePHPFolds<CR>
 nmap <silent> zP :DisablePHPFolds<CR>
 " }}}
 Plugin 'rking/ag.vim'
+Plugin 'rhysd/vim-clang-format'
 Plugin 'scrooloose/nerdtree' " {{{
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
 " }}}
@@ -98,13 +97,8 @@ let g:syntastic_php_checkers = ['php']
 " }}}
 Plugin 'Shougo/context_filetype.vim'
 Plugin 'SirVer/ultisnips' " {{{
-let g:snips_author = "Sven Axelsson"
-let g:snips_email = "sven@textalk.se"
-let g:ultisnips_java_brace_style = "nl"
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsEditSplit = 'vertical'
+let g:UltiSnipsExpandTrigger = '<C-CR>'
 " }}}
 Plugin 'sjl/gundo.vim' " {{{
 nnoremap <F2> :GundoToggle<CR>
@@ -128,8 +122,8 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'travitch/hasksyn'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'Valloric/YouCompleteMe' " {{{
-let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 " }}}
 Plugin 'vim-pandoc/vim-pandoc' " {{{
 " I hate that everything is folded by default.
@@ -141,7 +135,6 @@ let g:pandoc#syntax#conceal#use=0
 " }}}
 Plugin 'vim-php/tagbar-phpctags.vim'
 Plugin 'vim-scripts/PreserveNoEOL' " Needed by editorconfig
-Plugin 'wincent/command-t'
 
 call vundle#end()
 
@@ -178,6 +171,7 @@ set backspace=indent,eol,start
 set laststatus=2
 set splitbelow
 set splitright
+set conceallevel=2 concealcursor=vin
 
 " Diff options
 set diffopt=vertical
@@ -199,6 +193,7 @@ set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*.pyc,**/.git/*,**/.svn/*
 
 " Fold behaviour
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldopen=all
 set foldclose=all
 
