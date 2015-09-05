@@ -55,9 +55,6 @@
   :init (progn (add-hook 'sgml-mode-hook 'emmet-mode)
                (add-hook 'html-mode-hook 'emmet-mode)
                (add-hook 'css-mode-hook  'emmet-mode)))
-(use-package erlang-start
-  :ensure erlang
-  :commands erlang-start)
 (use-package expand-region
   :ensure expand-region
   :bind (("C-=" . er/expand-region)
@@ -139,20 +136,13 @@
   :diminish yas-minor-mode
   :init (yas-global-mode 1))
 
-;;;_** Not installed through `package.el'
-(use-package ws-butler
-  :init (progn (add-hook 'c-mode-hook 'ws-butler-mode)
-               (add-hook 'c++-mode-hook 'ws-butler-mode)
-               (add-hook 'javascript-mode-hook 'ws-butler-mode)
-	       (add-hook 'php-mode-hook 'ws-butler-mode)))
-
 ;;;_** Mode mappings and hooks
 
 ;; Adobe Extend Script
-                              
+
 (add-hook 'html-mode-hook #'(lambda nil (setq sgml-mode t)))
 
- ;;;_** Functions
+;;;_** Functions
 (defun sa-query-replace ()
   "Go to the top of the buffer, then execute `query-replace'."
   (interactive)
