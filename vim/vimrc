@@ -52,8 +52,13 @@ Plugin 'ctrlpvim/ctrlp.vim' "{{{
 " Depends on 'nixprime/cpsm'
 let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 " }}}
+Plugin 'd11wtq/ctrlp_bdelete.vim' "{{{
+" Depends on 'ctrlpvim/ctrlp.vim'
+" See initialization section
+" }}}
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'derekwyatt/vim-scala'
+Plugin 'dyng/ctrlsf.vim'
 Plugin 'editorconfig/editorconfig-vim' " Depends on 'vim-scripts/PreserveNoEOL'
 Plugin 'embear/vim-foldsearch'
 Plugin 'ervandew/supertab' " {{{
@@ -138,6 +143,11 @@ Plugin 'vim-scripts/PreserveNoEOL' " Needed by editorconfig
 
 call vundle#end()
 
+# Initialization --------------------------------------------------------------
+# Stuff here needs to run after `vundle#end()`
+
+call ctrlp_bdelete#init()
+
 " General settings ------------------------------------------------------------
 
 filetype plugin indent on
@@ -176,6 +186,7 @@ set laststatus=2
 set splitbelow
 set splitright
 set conceallevel=2 concealcursor=vin
+set textwidth=160
 
 " Diff options
 set diffopt=vertical
@@ -196,7 +207,8 @@ set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*.pyc,**/.git/*,**/.svn/*
 
 " Fold behaviour
-set foldopen=all
+" set foldopen=all
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
 set foldclose=all
 
 " Visuals
@@ -322,7 +334,7 @@ nmap <SwipeLeft> :bprevious<CR>
 nmap <SwipeRight> :bnext<CR>
 
 " Pad a line with the last character as filler.
-map <leader>= $x80p80<Bar>D
+nmap <leader>= $x80p80<Bar>D
 
 " Remove extra spaces between words
 nmap <leader>- ciw <Esc>
