@@ -143,8 +143,8 @@ Plugin 'vim-scripts/PreserveNoEOL' " Needed by editorconfig
 
 call vundle#end()
 
-# Initialization --------------------------------------------------------------
-# Stuff here needs to run after `vundle#end()`
+" Initialization --------------------------------------------------------------
+" Stuff here needs to run after `vundle#end()`
 
 call ctrlp_bdelete#init()
 
