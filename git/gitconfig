@@ -1,24 +1,7 @@
-[core]
-        quotepath = off
-        excludesfile = /Users/sven/.gitignore_global
-        whitespace = cr-at-eol
-        precomposeunicode = true
-[push]
-        default = current
-[user]
-        name = Sven Axelsson
-        email = sven@axelsson.name
-[color]
-        branch = auto
-        diff = auto
-        status = auto
-        ui = auto
-[color "branch"]
-        current = bold
-        remote = yellow
 [alias]
         br = branch
         ci = commit
+        cia = commit -a --amend --no-edit
         co = checkout
         st = status
         unstash = stash pop
@@ -26,6 +9,7 @@
         subup = submodule foreach 'git pull -s recursive -X theirs origin master'
         subrm = !~/bin/git-subrm.sh
         pullall = !~/bin/git-pullall.sh
+        delete-merged-branches = !sh -c 'git branch --merged master | grep -v master | xargs -n 1 git branch -d'
         wtf = !~/bin/git-wtf
         # Logs
         olog = log --oneline
@@ -36,6 +20,22 @@
         sdiff = log -p --no-walk
         touches = log --name-only --no-walk
         changed = "!sh -c 'git log --name-only --pretty=\"%%\" \"$@\" | sort -u | sed \"1,2d\"' -"
+[user]
+	name = 
+	email = 
+[core]
+        quotepath = off
+	excludesfile = /Users/sven/.gitignore_global
+        whitespace = cr-at-eol
+        precomposeunicode = true
+[color]
+        branch = auto
+        diff = auto
+        status = auto
+        ui = auto
+[color "branch"]
+        current = bold
+        remote = yellow
 [diff]
         tool = Kaleidoscope
 [merge]
@@ -58,13 +58,19 @@
         trustExitCode = true
 [filter "media"]
         required = true
-	clean = git media clean %f
-	smudge = git media smudge %f
+        clean = git media clean %f
+        smudge = git media smudge %f
 [filter "hawser"]
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
+        clean = git hawser clean %f
+        smudge = git hawser smudge %f
+        required = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+        clean = git lfs clean %f
+        smudge = git lfs smudge %f
+        required = true
+[push]
+        default = current
+[sendemail]
+        smtpServer = mailgw.textalk.com
+[commit]
+	template = /Users/sven/.stCommitMsg
