@@ -35,26 +35,21 @@
  '(js-indent-level 2)
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
- '(one-buffer-one-frame-mode nil nil (aquamacs-frame-setup))
  '(org-mobile-directory "~/Dropbox/Apps/MobileOrg")
  '(org-mobile-files (quote (org-agenda-files "~/Documents/Orgfiles")))
+ '(package-selected-packages
+   (quote
+    (xkcd whole-line-or-region web-mode string-inflection solarized-theme smex smartparens smart-mode-line slime qml-mode powerline popwin phpunit php-mode move-text markdown-mode magit less-css-mode json-mode js2-refactor ido-ubiquitous highlight-symbol haskell-mode git-rebase-mode git-commit-mode fuzzy-match fold-this flycheck flx-ido expand-region erlang ensime emr emmet-mode editorconfig dokuwiki-mode dired-subtree diminish bind-key bbcode-mode ag ace-window ace-jump-mode abc-mode)))
  '(php-mode-coding-style (quote drupal))
  '(scroll-margin 3)
  '(sentence-end-double-space nil)
- '(show-paren-mode t)
  '(solarized-distinct-fringe-background t)
  '(solarized-high-contrast-mode-line t)
  '(standard-indent 2)
- '(tabbar-mode nil nil (tabbar))
- '(tool-bar-mode nil)
  '(tramp-verbose 3))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :height 150 :family "Menlo"))))
- '(mode-line ((t (:background "#657b83" :foreground "#fdf6e3" :box (:line-width 1 :color "#657b83" :style unspecified)))))
- '(org-mode-default ((t (:inherit autoface-default :height 150 :family "Lucida Grande"))))
- '(org-table ((t (:inherit org-mode-default :family "Menlo"))))
- '(text-mode-default ((t (:inherit autoface-default :height 150 :family "Lucida Grande")))))
+ )

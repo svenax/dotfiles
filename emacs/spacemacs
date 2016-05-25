@@ -1,0 +1,179 @@
+;; -*- mode: emacs-lisp -*-
+;; This file is loaded by Spacemacs at startup.
+;; It must be stored in your home directory.
+
+(defun dotspacemacs/layers ()
+  "Configuration Layers declaration.
+You should not put any user code in this function besides modifying the variable
+values."
+  (setq-default
+   ;; Base distribution to use. This is a layer contained in the directory
+   ;; `+distribution'. For now available distributions are `spacemacs-base'
+   ;; or `spacemacs'. (default 'spacemacs)
+   dotspacemacs-distribution 'spacemacs
+   ;; List of additional paths where to look for configuration layers.
+   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   dotspacemacs-configuration-layer-path '()
+   ;; List of configuration layers to load. If it is the symbol `all' instead
+   ;; of a list then all discovered layers will be installed.
+   dotspacemacs-configuration-layers
+   '(
+     ;; Global ---------------------------------------------------------
+     (auto-completion :variables
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-snippets-in-popup t)
+     emacs-lisp
+     git
+     osx
+     org
+     ranger
+     semantic
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-shell 'eshell)
+     (syntax-checking :variables syntax-checking-enable-by-default nil)
+     unimpaired
+     ;; +lang ----------------------------------------------------------
+     html
+     javascript
+     latex
+     lua
+     markdown
+     php
+     react
+     sql
+     yaml
+     ;; +tools ---------------------------------------------------------
+     pandoc
+     )
+
+   dotspacemacs-additional-packages
+   '(
+     editorconfig
+     hl-anything
+     mediawiki
+     )
+
+   dotspacemacs-excluded-packages
+   '(
+     spray
+     )
+
+   dotspacemacs-delete-orphan-packages t))
+
+(defun dotspacemacs/init ()
+  "Initialization function.
+This function is called at the very startup of Spacemacs initialization
+before layers configuration.
+You should not put any user code in there besides modifying the variable
+values."
+  (setq-default
+   dotspacemacs-editing-style 'vim
+   dotspacemacs-verbose-loading nil
+   dotspacemacs-startup-banner nil
+   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-themes '(solarized-light
+                         solarized-dark
+                         spacemacs-light
+                         spacemacs-dark
+                         leuven
+                         monokai
+                         zenburn)
+   dotspacemacs-colorize-cursor-according-to-state t
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 15
+                               :width normal
+                               :powerline-scale 1.1)
+   dotspacemacs-leader-key "SPC"
+   dotspacemacs-emacs-leader-key "M-m"
+   dotspacemacs-major-mode-leader-key ","
+   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   dotspacemacs-command-key ":"
+   dotspacemacs-remap-Y-to-y$ t
+   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-use-ido nil
+   dotspacemacs-helm-resize nil
+   dotspacemacs-helm-no-header nil
+   dotspacemacs-helm-position 'bottom
+   dotspacemacs-enable-paste-micro-state nil
+   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-position 'bottom
+   dotspacemacs-loading-progress-bar t
+   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-use-non-native nil
+   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-active-transparency 90
+   dotspacemacs-inactive-transparency 90
+   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-smooth-scrolling t
+   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-highlight-delimiters 'all
+   dotspacemacs-persistent-server nil
+   dotspacemacs-search-tools '("ag" "ack" "grep")
+   dotspacemacs-default-package-repository nil
+   ))
+
+(defun dotspacemacs/user-init ()
+  "Initialization function for user code.
+It is called immediately after `dotspacemacs/init'.  You are free to put any
+user code."
+  (setq-default
+   ;; Avy
+   avy-all-windows 'all-frames
+   ;; whitespace-mode
+   whitespace-style '(face space-mark tab-mark newline-mark)
+   whitespace-display-mappings
+   '((space-mark 32 [183] [46])
+     (newline-mark 10 [8629 10])
+     (tab-mark 9 [9655 9] [92 9])))
+)
+
+(defun dotspacemacs/user-config ()
+  "Configuration function for user code.
+ This function is called at the very end of Spacemacs initialization after
+layers configuration. You are free to put any user code."
+  ;; Custom settings
+  (setq-default
+   evil-escape-key-sequence "ij"
+   neo-vc-integration nil
+   powerline-default-separator 'bar)
+  (editorconfig-mode)
+  ;; Key bindings
+  (define-key evil-normal-state-map (kbd "M-s-<up>") 'move-text-up)
+  (define-key evil-normal-state-map (kbd "M-s-<down>") 'move-text-down)
+  (define-key evil-visual-state-map (kbd "M-s-<up>") 'move-text-up)
+  (define-key evil-visual-state-map (kbd "M-s-<down>") 'move-text-down)
+  (evil-leader/set-key "tW" 'toggle-word-wrap)
+  (evil-leader/set-key "<SPC>" 'avy-goto-word-or-subword-1)
+  ;; Custom packages
+  (use-package mediawiki
+    :config
+    (add-hook 'mediawiki-hook (lambda () (toggle-word-wrap 1)))
+    (setq mediawiki-site-alist
+          (quote
+           (("Textalk" "http://wiki.textalk.com/" "sven" "qazOKM123" "Huvudsida")
+            ("Wikipedia" "http://en.wikipedia.org/w/" "svenax" "qazOKM123" "Main Page"))))
+    (setq mediawiki-site-default "Textalk")
+    )
+  (use-package LilyPond-mode
+    :load-path "/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp"
+    :mode ("\\.i?ly\\'" . LilyPond-mode)
+    )
+  )
+
+;; Do not write anything past this comment. This is where Emacs will
+;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(paradox-github-token t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
