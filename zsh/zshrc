@@ -1,0 +1,159 @@
+autoload -U compinit && compinit
+autoload -U promptinit && promptinit
+
+# Plugins =====================================================================
+
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+zplugs=()
+
+zplug 'andrewferrier/fzf-z'
+zplug 'bric3/nice-exit-code'
+zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh', hook-build:'stack build && stack install'
+zplug "plugins/z", from:'oh-my-zsh'
+zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zsh-syntax-highlighting'
+
+zplug check || zplug install
+zplug load
+
+# Configuration ===============================================================
+
+setopt AUTO_LIST
+setopt AUTO_MENU
+setopt EXTENDED_HISTORY
+setopt HIST_EXPAND
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_VERIFY
+setopt INC_APPEND_HISTORY
+setopt LIST_PACKED
+setopt NO_BEEP
+setopt PROMPT_SUBST
+setopt SHARE_HISTORY
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' menu select=0
+zstyle ':completion:*:complete:(cd|pushd):*' tag-order 'local-directories named-directories path-directories'
+zstyle ":completion:*:descriptions" format "%B--- %d%b"
+zstyle ':completion:*' group-name ''
+
+# zmodload zsh/complist
+
+HIST_STAMPS="yyyy-mm-dd"
+HISTSIZE=10000
+SAVEHIST=50000
+
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+
+# Convenience when the Homebew install paths are needed
+phpver=$(php-config --vernum)
+phpver="php${phpver[1,2]}"
+phpprefix="/usr/local/opt/${phpver}"
+
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export DISPLAY=:0
+export CLICOLOR=1
+export LSCOLORS="gxfxcxdxbxegedabagacad"
+export PAGER=less
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
+
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vim'
+  # export EDITOR='subl'
+fi
+
+
+# Aliases =====================================================================
+
+alias '..'='cd ..'
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+
+alias ag='ag --pager "less -R"'
+alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
+alias git=hub
+
+alias ls='ls -GF'
+alias ll='ls -l'
+alias la='ls -a'
+alias mkdir='mkdir -pv'
+
+alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
+alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
+alias phpxt-analyze='php ~/bin/tracefile-analyzer.php'
+
+alias -g G='|grep'
+alias -g L='|less'
+alias -g NULL='> /dev/null 2>&1'
+
+# Paths =======================================================================
+
+hash -d sax=/Sources/Svenax
+hash -d swk=/Sources/Work
+hash -d ssax=/Sources/Work/Sven
+
+cdpath=(
+    .
+    /Sources/Svenax/
+    /Sources/Work/
+    ~/Documents/Work/
+    ~/dotfiles/
+)
+typeset -U cdpath
+
+fpath=(
+    /usr/local/share/zsh/zsh-completions 
+    /usr/local/share/zsh/functions
+    $fpath
+)
+typeset -U fpath
+
+path=(
+    ~/bin
+    ~/.composer/vendor/bin
+    "$(brew --prefix qt5)/bin"
+    $path
+)
+typeset -U path
+export PATH
+
+# Passwords and stuff. Not included in the repo!
+source ~/dotfiles/private
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Prompt ======================================================================
+
+function preexec() {
+  timer=${timer:-$SECONDS}
+}
+
+function precmd() {
+  if [ $timer ]; then
+    timer_show=$(($SECONDS - $timer))
+    export RPROMPT='$(nice_exit_code) %F{3}${timer_show}s%f'
+    unset timer
+  fi
+}
+
+GIT_PROMPT_EXECUTABLE='haskell'
+
+ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}↪ '
+ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
+
+NEWLINE=$'\n'
+PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
