@@ -46,29 +46,20 @@ else
 endif
 " }}}
 Plugin 'brianclements/vim-popwindow' " {{{
-nnoremap <silent> <C-w><BS> :PopWindow<CR>
-" }}}
-Plugin 'ctrlpvim/ctrlp.vim' "{{{
-" Depends on 'nixprime/cpsm'
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-" }}}
-Plugin 'd11wtq/ctrlp_bdelete.vim' "{{{
-" Depends on 'ctrlpvim/ctrlp.vim'
-" See initialization section
+nnoremap <silent> <c-w><BS> :PopWindow<cr>
 " }}}
 Plugin 'derekwyatt/vim-fswitch'
 Plugin 'derekwyatt/vim-scala'
-Plugin 'dyng/ctrlsf.vim'
+Plugin 'dyng/ctrlsf.vim' "{{{
+nmap <leader>ff <Plug>CtrlSFPrompt
+nmap <leader>fg <Plug>CtrlSFCwordExec
+vmap <leader>ff <Plug>CtrlSFVwordPath
+vmap <leader>fg <Plug>CtrlSFVwordExec
+" }}}
 Plugin 'editorconfig/editorconfig-vim' " Depends on 'vim-scripts/PreserveNoEOL'
 Plugin 'embear/vim-foldsearch'
-Plugin 'ervandew/supertab' " {{{
-let g:SuperTabDefaultCompletionType = "context"
-autocmd FileType *
-  \ if &omnifunc != '' |
-  \   call SuperTabChain(&omnifunc, "<c-p>") |
-  \ endif
-" }}}
 Plugin 'glts/vim-textobj-comment'
+Plugin 'gregsexton/gitv'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'junegunn/vim-easy-align' " {{{
 vmap <Enter> <Plug>(EasyAlign)
@@ -76,41 +67,49 @@ nmap <Leader>a <Plug>(EasyAlign)
 " }}}
 Plugin 'justinmk/vim-sneak' " {{{
 let g:sneak#streak = 1
+let g:sneak#target_labels = ";sftunq/SFGHLTUNRMQZ?0-"
 " }}}
 Plugin 'kana/vim-textobj-user'
 Plugin 'kristijanhusak/vim-multiple-cursors'
 Plugin 'majutsushi/tagbar' " {{{
-nnoremap <silent> <F4> :TagbarToggle<CR>
+nnoremap <silent> <F4> :TagbarToggle<cr>
 " }}}
 Plugin 'mhinz/vim-signify' " {{{
 let g:signify_vcs_list = ['git', 'svn']
 " }}}
-Plugin 'nixprime/cpsm'
 Plugin 'nelstrom/vim-visual-star-search'
 Plugin 'othree/xml.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'Raimondi/delimitMate'
+Plugin 'Raimondi/delimitMate' "{{{
+let g:delimitMate_expand_cr = 1
+" }}}
 Plugin 'rayburgemeestre/phpfolding.vim' " {{{
 let g:DisableAutoPHPFolding = 1
-nmap <silent> zp :EnablePHPFolds<CR>
-nmap <silent> zP :DisablePHPFolds<CR>
+nmap <silent> zp :EnablePHPFolds<cr>
+nmap <silent> zP :DisablePHPFolds<cr>
 " }}}
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/nerdtree' " {{{
-nnoremap <silent> <F3> :NERDTreeToggle<CR>
+nnoremap <silent> <F3> :NERDTreeToggle<cr>
 " }}}
 Plugin 'scrooloose/syntastic' " {{{
 let g:syntastic_check_on_open = 1
 let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_php_checkers = ['php']
+nnoremap <leader>yt :SyntasticToggleMode<cr>
 " }}}
+Plugin 'shawncplus/phpcomplete.vim'
 Plugin 'SirVer/ultisnips' " {{{
 let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<Tab>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 " }}}
 Plugin 'sjl/gundo.vim' " {{{
-nnoremap <F2> :GundoToggle<CR>
+nnoremap <F2> :GundoToggle<cr>
+" }}}
+Plugin 'szw/vim-ctrlspace' " {{{
+let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+nnoremap <silent><C-p> :CtrlSpace O<cr>
 " }}}
 Plugin 'tommcdo/vim-exchange'
 Plugin 'tomtom/tcomment_vim'
@@ -119,7 +118,7 @@ Plugin 'tpope/vim-fugitive' " {{{
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd User fugitive
   \ if fugitive#buffer().type() =~# '^\%(tree\|blob\)$' |
-  \   nnoremap <buffer> .. :edit %:h<CR> |
+  \   nnoremap <buffer> .. :edit %:h<cr> |
   \ endif
 " }}}
 Plugin 'tpope/vim-ragtag' " {{{
@@ -146,8 +145,6 @@ call vundle#end()
 " Initialization --------------------------------------------------------------
 " Stuff here needs to run after `vundle#end()`
 
-call ctrlp_bdelete#init()
-
 " General settings ------------------------------------------------------------
 
 filetype plugin indent on
@@ -165,9 +162,8 @@ set backupdir=/tmp
 set directory=/tmp
 
 " Buffers
-set autoread
-set hidden
-set nobackup
+set autoread hidden
+set nobackup noswapfile
 set switchbuf=useopen,usetab,newtab
 
 " Tab defaults
@@ -183,9 +179,8 @@ set listchars=tab:▸\ ,trail:·,eol:¬,extends:←,precedes:→
 set showbreak=…
 set backspace=indent,eol,start
 set laststatus=2
-set splitbelow
-set splitright
-set conceallevel=2 concealcursor=vin
+set splitbelow splitright
+" set conceallevel=2 concealcursor=vin
 set textwidth=160
 
 " Diff options
@@ -197,8 +192,7 @@ set smartindent
 set formatprg=par\ w80qrg
 
 " Search behaviour
-set ignorecase
-set smartcase
+set ignorecase smartcase
 set incsearch
 set showmatch
 set hlsearch
@@ -227,13 +221,14 @@ autocmd CompleteDone * pclose
 " Configs for GUI app or terminal with more than 2 colors.
 if has("gui_running")
     " Extra spacing between lines. Needed for some fonts.
-    set linespace=1
+    set linespace=4
     " No scroll bars, ever!
     set guioptions-=L
     set guioptions-=l
     set guioptions-=R
     set guioptions-=r
-    set guifont=Source\ Code\ Pro:h15
+    set guifont=Pragmata\ Pro:h16
+    " set guifont=Source\ Code\ Pro:h15
 endif
 
 
@@ -294,57 +289,63 @@ endfunction
 
 autocmd BufRead,BufNewFile */vpn/*.txt set filetype=pandoc
 
+" Completion settings ---------------------------------------------------------
+
+set shortmess-=c
+set omnifunc=syntaxcomplete#Complete
+
 " Key mappings ----------------------------------------------------------------
 
-" Summarize tab settings
-map <leader>st :call SummarizeTabs()<CR>
+" Functions and commands
+map <leader>st :call SummarizeTabs()<cr>
 
 " Move current line down/up
-map <M-D-Down> ]e
-map <M-D-Up> [e
+map <m-d-down> ]e
+map <m-d-up> [e
 
 " Move visually selected lines down/up
-vmap <M-D-Down> ]egv
-vmap <M-D-Up> [egv
-
-" Move visual selection back/forwards
-vmap <M-D-Left> x<BS>P`[v`]
-vmap <M-D-Right> x<Space>P`[v`]
+vmap <m-d-down> ]egv
+vmap <m-d-up> [egv
 
 " Toggles & Switches
-nmap <silent> <leader>l :set list!<CR>
-nmap <silent> <leader>w :set wrap!<CR>
-nmap <silent> <leader>s :set spell!<CR>
-nmap <silent> <BS> :silent :nohlsearch<CR>
+nmap <silent> <leader>l :set list!<cr>
+nmap <silent> <leader>w :set wrap!<cr>
+nmap <silent> <leader>s :set spell!<cr>
+nmap <silent> <bs> :silent :nohlsearch<cr>
 command! -nargs=* Wrap set wrap linebreak nolist
 
 " Edit .vimrc
-map <leader>vv :tabe $MYVIMRC<CR>
-map <leader>vs :source $MYVIMRC<CR>
+map <leader>vv :tabe $MYVIMRC<cr>
+map <leader>vs :source $MYVIMRC<cr>
 
 " Shortcuts for opening file in same directory as current file
 cabbrev %% =expand("%:p:h")
-map <leader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>es :sp <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>ev :vsp <C-R>=expand("%:p:h") . "/" <CR>
-map <leader>et :tabe <C-R>=expand("%:p:h") . "/" <CR>
+map <leader>ee :e <c-r>=expand("%:p:h") . "/" <cr>
+map <leader>es :sp <c-r>=expand("%:p:h") . "/" <cr>
+map <leader>ev :vsp <c-r>=expand("%:p:h") . "/" <cr>
+map <leader>et :tabe <c-r>=expand("%:p:h") . "/" <cr>
 
 " Buffer stuff
-nmap <SwipeLeft> :bprevious<CR>
-nmap <SwipeRight> :bnext<CR>
+nmap <SwipeLeft> :bprevious<cr>
+nmap <SwipeRight> :bnext<cr>
 
 " Pad a line with the last character as filler.
-nmap <leader>= $x80p80<Bar>D
+nmap <leader>= $x80p80<bar>D
 
 " Remove extra spaces between words
-nmap <leader>- ciw <Esc>
+nmap <leader>- ciw <esc>
 
 " Fix encoding
-nmap <leader>ef :set ff=unix fenc=utf-8<CR>:write<CR>
+nmap <leader>ef :set ff=unix fenc=utf-8<cr>:write<cr>
 
 " Reformat current paragraph or selection
 vmap Q gq
 nmap Q gqap
+
+" Center display
+nmap <space> zz
+nmap n nzz
+nmap N Nzz
 
 " Default to very magic mode
 nnoremap / /\v
