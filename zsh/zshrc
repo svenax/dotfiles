@@ -58,6 +58,8 @@ phpver=$(php-config --vernum)
 phpver="php${phpver[1,2]}"
 phpprefix="/usr/local/opt/${phpver}"
 
+NEWLINE=$'\n'
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export DISPLAY=:0
@@ -91,6 +93,7 @@ alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
+alias ssudo="echo '$PASSPHRASE$NEWLINE'|sudo -p '' -kS"
 
 alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
 alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
@@ -155,5 +158,4 @@ GIT_PROMPT_EXECUTABLE='haskell'
 ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}↪ '
 ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
 
-NEWLINE=$'\n'
 PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
