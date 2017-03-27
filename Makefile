@@ -15,6 +15,9 @@ symlinks:
 	ln -sf $(DIR)/git/gitignore_global ~/.gitignore_global
 	ln -nsf $(DIR)/vim/vim ~/.vim
 	ln -sf $(DIR)/vim/vimrc ~/.vimrc
+	ln -nsf $(DIR)/vim/vim ~/.nvim
+	ln -sf $(DIR)/vim/vimrc ~/.nvimrc
+	ln -sf $(DIR)/zsh/zshenv ~/.zshenv
 	ln -sf $(DIR)/zsh/zshrc ~/.zshrc
 
 ensure_vundle: symlinks
