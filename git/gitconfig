@@ -67,11 +67,3 @@
         required = true
 [push]
         default = current
-[sendemail]
-        smtpServer = mailgw.textalk.com
-[commit]
-        template = /Users/sven/dotfiles/git/stCommitMsg
-[github]
-        user = svenax
-        password = ***REMOVED***
-        oauth-token = ***REMOVED***
