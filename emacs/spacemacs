@@ -24,24 +24,28 @@ values."
                       auto-completion-enable-snippets-in-popup t)
      emacs-lisp
      git
+     github
      osx
      org
-     ranger
      semantic
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
             shell-default-shell 'eshell)
-     (syntax-checking :variables syntax-checking-enable-by-default nil)
-     unimpaired
+     (syntax-checking :variables
+                      syntax-checking-enable-by-default nil)
      ;; +lang ----------------------------------------------------------
+     c-c++
+     clojure
      html
      javascript
      latex
-     lua
      markdown
      php
-     react
+     restclient
+     (scala :variables
+            scala-indent:use-javadoc-style nil
+            scala-indent:indent-value-expression t)
      sql
      yaml
      ;; +tools ---------------------------------------------------------
@@ -68,51 +72,56 @@ This function is called at the very startup of Spacemacs initialization
 before layers configuration.
 You should not put any user code in there besides modifying the variable
 values."
-  (setq-default
-   dotspacemacs-editing-style 'vim
-   dotspacemacs-verbose-loading nil
-   dotspacemacs-startup-banner nil
-   dotspacemacs-startup-lists '(recents projects)
-   dotspacemacs-themes '(solarized-light
-                         solarized-dark
-                         spacemacs-light
-                         spacemacs-dark
-                         leuven
-                         monokai
-                         zenburn)
-   dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 15
-                               :width normal
-                               :powerline-scale 1.1)
-   dotspacemacs-leader-key "SPC"
-   dotspacemacs-emacs-leader-key "M-m"
-   dotspacemacs-major-mode-leader-key ","
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
-   dotspacemacs-command-key ":"
-   dotspacemacs-remap-Y-to-y$ t
-   dotspacemacs-auto-save-file-location 'cache
-   dotspacemacs-use-ido nil
-   dotspacemacs-helm-resize nil
-   dotspacemacs-helm-no-header nil
-   dotspacemacs-helm-position 'bottom
-   dotspacemacs-enable-paste-micro-state nil
-   dotspacemacs-which-key-delay 0.4
-   dotspacemacs-which-key-position 'bottom
-   dotspacemacs-loading-progress-bar t
-   dotspacemacs-fullscreen-at-startup nil
-   dotspacemacs-fullscreen-use-non-native nil
-   dotspacemacs-maximized-at-startup nil
-   dotspacemacs-active-transparency 90
-   dotspacemacs-inactive-transparency 90
-   dotspacemacs-mode-line-unicode-symbols t
-   dotspacemacs-smooth-scrolling t
-   dotspacemacs-smartparens-strict-mode nil
-   dotspacemacs-highlight-delimiters 'all
-   dotspacemacs-persistent-server nil
-   dotspacemacs-search-tools '("ag" "ack" "grep")
-   dotspacemacs-default-package-repository nil
-   ))
+  (add-to-list 'exec-path "/usr/local/bin")
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (c-set-offset 'case-label '+)))
+  (when (not (display-graphic-p))
+    (menu-bar-mode -1)))
+(setq-default
+ dotspacemacs-editing-style 'vim
+ dotspacemacs-verbose-loading nil
+ dotspacemacs-startup-banner nil
+ dotspacemacs-startup-lists '(recents projects)
+ dotspacemacs-themes '(solarized-light
+                       solarized-dark
+                       spacemacs-light
+                       spacemacs-dark
+                       leuven
+                       monokai
+                       zenburn)
+ dotspacemacs-colorize-cursor-according-to-state t
+ dotspacemacs-default-font '("Source Code Pro"
+                             :size 15
+                             :width normal
+                             :powerline-scale 1.1)
+ dotspacemacs-leader-key "SPC"
+ dotspacemacs-emacs-leader-key "M-m"
+ dotspacemacs-major-mode-leader-key ","
+ dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+ dotspacemacs-remap-Y-to-y$ t
+ dotspacemacs-auto-save-file-location 'cache
+ dotspacemacs-use-ido nil
+ dotspacemacs-helm-resize nil
+ dotspacemacs-helm-no-header nil
+ dotspacemacs-helm-position 'bottom
+ dotspacemacs-enable-paste-micro-state nil
+ dotspacemacs-which-key-delay 0.4
+ dotspacemacs-which-key-position 'bottom
+ dotspacemacs-loading-progress-bar t
+ dotspacemacs-fullscreen-at-startup nil
+ dotspacemacs-fullscreen-use-non-native nil
+ dotspacemacs-maximized-at-startup t
+ dotspacemacs-active-transparency 90
+ dotspacemacs-inactive-transparency 90
+ dotspacemacs-mode-line-unicode-symbols t
+ dotspacemacs-smooth-scrolling t
+ dotspacemacs-smartparens-strict-mode nil
+ dotspacemacs-highlight-delimiters 'all
+ dotspacemacs-persistent-server t
+ dotspacemacs-search-tools '("ag" "ack" "grep")
+ dotspacemacs-default-package-repository nil
+ )
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -127,7 +136,7 @@ user code."
    '((space-mark 32 [183] [46])
      (newline-mark 10 [8629 10])
      (tab-mark 9 [9655 9] [92 9])))
-)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -135,7 +144,6 @@ user code."
 layers configuration. You are free to put any user code."
   ;; Custom settings
   (setq-default
-   evil-escape-key-sequence "ij"
    neo-vc-integration nil
    powerline-default-separator 'bar)
   (editorconfig-mode)
@@ -145,7 +153,6 @@ layers configuration. You are free to put any user code."
   (define-key evil-visual-state-map (kbd "M-s-<up>") 'move-text-up)
   (define-key evil-visual-state-map (kbd "M-s-<down>") 'move-text-down)
   (evil-leader/set-key "tW" 'toggle-word-wrap)
-  (evil-leader/set-key "<SPC>" 'avy-goto-word-or-subword-1)
   ;; Custom packages
   (use-package mediawiki
     :config
@@ -169,7 +176,12 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(paradox-github-token t))
+ '(exec-path-from-shell-arguments (quote ("-l")))
+ '(package-selected-packages
+   (quote
+    (restclient-helm ob-restclient company-restclient know-your-http-well hide-comnt helm-purpose window-purpose imenu-list inflections pug-mode hl-anything undo-tree s magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache noflet ensime sbt-mode scala-mode restclient ob-http auctex simple-httpd auto-complete f evil request alert git-commit with-editor hydra js2-mode osx-dictionary dumb-jump org ht php-mode markdown-mode tern cider clojure-mode anzu iedit smartparens flycheck company helm helm-core multiple-cursors avy projectile magit magit-popup async yasnippet evil-unimpaired zenburn-theme yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit stickyfunc-enhance srefactor sql-indent spacemacs-theme spaceline solarized-theme smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters quelpa popwin phpunit phpcbf php-extras php-auto-yasnippets persp-mode pcre2el pbcopy paradox pandoc-mode ox-pandoc osx-trash orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode mediawiki markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig drupal-mode disaster define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex column-enforce-mode coffee-mode cmake-mode clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(paradox-github-token t)
+ '(vc-follow-symlinks nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -177,3 +189,27 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(exec-path-from-shell-arguments (quote ("-l")))
+ '(package-selected-packages
+   (quote
+    (magithub dash fuzzy highlight skewer-mode haml-mode winum bind-key bind-map restclient-helm ob-restclient company-restclient know-your-http-well hide-comnt helm-purpose window-purpose imenu-list inflections pug-mode hl-anything undo-tree s magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache noflet ensime sbt-mode scala-mode restclient ob-http auctex simple-httpd auto-complete f evil request alert git-commit with-editor hydra js2-mode osx-dictionary dumb-jump org ht php-mode markdown-mode tern cider clojure-mode anzu iedit smartparens flycheck company helm helm-core multiple-cursors avy projectile magit magit-popup async yasnippet evil-unimpaired zenburn-theme yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit stickyfunc-enhance srefactor sql-indent spacemacs-theme spaceline solarized-theme smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters quelpa popwin phpunit phpcbf php-extras php-auto-yasnippets persp-mode pcre2el pbcopy paradox pandoc-mode ox-pandoc osx-trash orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode mediawiki markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig drupal-mode disaster define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex column-enforce-mode coffee-mode cmake-mode clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+ '(paradox-github-token t)
+ '(vc-follow-symlinks nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+)
