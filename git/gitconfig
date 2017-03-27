@@ -3,31 +3,39 @@
         ci = commit
         cia = commit -a --amend --no-edit
         co = checkout
-        st = status
-        unstash = stash pop
-        ignore = !git ls-files -ci --exclude-standard -z | xargs -0 git rm --cached
-        subup = submodule foreach 'git pull -s recursive -X theirs origin master'
-        subrm = !~/bin/git-subrm.sh
-        pullall = !~/bin/git-pullall.sh
         delete-merged-branches = !sh -c 'git branch --merged master | grep -v master | xargs -n 1 git branch -d'
+        g = grep --break --heading --line-number
+        pullall = !~/bin/git-pullall.sh
+        pullo = pull -s recursive -X ours
+        pullr = pull --rebase --autostash
+        pullt = pull -s recursive -X theirs
+        pushf = push --force
+        st = status
+        subrm = !~/bin/git-subrm.sh
+        subup = submodule foreach 'git pull -s recursive -X theirs'
+        unstash = stash pop
         wtf = !~/bin/git-wtf
+        # Flow
+        ff = flow feature
+        fh = flow hotfix
+        fr = flow release
         # Logs
-        olog = log --oneline
-        slog = log --pretty="format:'%C(yellow)%h%Creset %ar by %an: %s'"
+        changed = "!sh -c 'git log --name-only --pretty=\"%%\" \"$@\" | sort -u | sed \"1,2d\"' -"
         glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
         new = !sh -c 'git log $1@{1}..$1@{0} "$@"'
-        snew = !sh -c 'git slog $1@{1}..$1@{0} "$@"'
+        olog = log --oneline
         sdiff = log -p --no-walk
+        slog = log --pretty="format:'%C(yellow)%h%Creset %ar by %an: %s'"
+        snew = !sh -c 'git slog $1@{1}..$1@{0} "$@"'
         touches = log --name-only --no-walk
-        changed = "!sh -c 'git log --name-only --pretty=\"%%\" \"$@\" | sort -u | sed \"1,2d\"' -"
 [user]
-	name = 
-	email = 
+        name = Sven Axelsson
+        email = sven@textalk.se
 [core]
-        quotepath = off
-	excludesfile = /Users/sven/.gitignore_global
-        whitespace = cr-at-eol
+        excludesfile = /Users/sven/.gitignore_global
         precomposeunicode = true
+        quotepath = off
+        whitespace = cr-at-eol
 [color]
         branch = auto
         diff = auto
@@ -37,25 +45,14 @@
         current = bold
         remote = yellow
 [diff]
-        tool = Kaleidoscope
+        tool = araxis
 [merge]
-        tool = Kaleidoscope
+        tool = araxis
 [difftool]
         prompt = false
 [mergetool]
         keepBackup = true
         prompt = false
-[difftool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-[difftool "Kaleidoscope"]
-        cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool "Kaleidoscope"]
-        cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-        trustExitCode = true
 [filter "media"]
         required = true
         clean = git media clean %f
@@ -73,4 +70,8 @@
 [sendemail]
         smtpServer = mailgw.textalk.com
 [commit]
-	template = /Users/sven/.stCommitMsg
+        template = /Users/sven/dotfiles/git/stCommitMsg
+[github]
+        user = svenax
+        password = ***REMOVED***
+        oauth-token = ***REMOVED***
