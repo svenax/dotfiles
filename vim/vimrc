@@ -104,6 +104,9 @@ let g:UltiSnipsEditSplit = 'vertical'
 let g:UltiSnipsExpandTrigger = '<Tab>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 " }}}
+Plugin 'Shougo/deoplete.nvim' " {{{
+let g:deoplete#enable_at_startup = 1
+" }}}
 Plugin 'sjl/gundo.vim' " {{{
 nnoremap <F2> :GundoToggle<cr>
 " }}}
