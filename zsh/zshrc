@@ -1,5 +1,6 @@
 autoload -U compinit && compinit
 autoload -U promptinit && promptinit
+autoload -U zmv
 
 # Plugins =====================================================================
 
@@ -10,7 +11,7 @@ zplugs=()
 
 zplug 'andrewferrier/fzf-z'
 zplug 'bric3/nice-exit-code'
-zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh', hook-build:'stack build && stack install'
+zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh' #, hook-build:'stack build && stack install'
 zplug "plugins/z", from:'oh-my-zsh'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
@@ -59,10 +60,13 @@ phpver="php${phpver[1,2]}"
 phpprefix="/usr/local/opt/${phpver}"
 
 NEWLINE=$'\n'
+PWNL=$PASSWORD_SECRET$NEWLINE
 
 export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
 export DISPLAY=:0
+export LC_ALL=en_US.UTF-8
+export LC_COLLATE=se_SV.UTF-8
+export LC_CTYPE=se_SV.UTF-8
 export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export PAGER=less
@@ -70,13 +74,9 @@ export PAGER=less
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='vim'
-  # export EDITOR='subl'
-fi
-
+export ALTERNATE_EDITOR=''
+#export EDITOR='emacsclient -t'
+export EDITOR='subl -nw'
 
 # Aliases =====================================================================
 
@@ -85,15 +85,19 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 
-alias ag='ag --pager "less -R"'
-alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
-alias git=hub
-
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
-alias ssudo="echo '$PASSPHRASE$NEWLINE'|sudo -p '' -kS"
+alias ssudo="echo '$PWNL'|sudo -p '' -kS"
+
+alias ag='ag --pager "less -R"'
+alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
+alias git=hub
+
+alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+alias ec='emacsclient -n -c'
+alias et='emacsclient -t'
 
 alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
 alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
@@ -103,41 +107,37 @@ alias -g G='|grep'
 alias -g L='|less'
 alias -g NULL='> /dev/null 2>&1'
 
-# Paths =======================================================================
-
-hash -d sax=/Sources/Svenax
-hash -d swk=/Sources/Work
-hash -d ssax=/Sources/Work/Sven
-
-cdpath=(
-    .
-    /Sources/Svenax/
-    /Sources/Work/
-    ~/Documents/Work/
-    ~/dotfiles/
-)
-typeset -U cdpath
-
-fpath=(
-    /usr/local/share/zsh/zsh-completions 
-    /usr/local/share/zsh/functions
-    $fpath
-)
-typeset -U fpath
-
-path=(
-    ~/bin
-    ~/.composer/vendor/bin
-    "$(brew --prefix qt5)/bin"
-    $path
-)
-typeset -U path
-export PATH
-
 # Passwords and stuff. Not included in the repo!
 source ~/dotfiles/private
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Functions ===================================================================
+
+function capture() {
+    sudo dtrace -p "$1" -qn '
+        syscall::write*:entry
+        /pid == $target && arg0 == 1/ {
+            printf("%s", copyinstr(arg1, arg2));
+        }
+    '
+}
+
+# Copy my public key to a server via SSH
+function ssh-copykey() {
+    if [[ -z "$1" ]]; then
+        echo "You need to enter a hostname in order to send your public key."
+    else
+        echo "* Copying SSH public key to server..."
+        ssh ${1} "mkdir -p ~/.ssh && cat - >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
+        echo "* All done."
+    fi
+}
+
+# cd to the brew directory of the given package
+function cdbrew() {
+    cd $(brew --prefix $1)
+}
 
 # Prompt ======================================================================
 
@@ -153,9 +153,11 @@ function precmd() {
   fi
 }
 
-GIT_PROMPT_EXECUTABLE='haskell'
+# GIT_PROMPT_EXECUTABLE='haskell'
 
-ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}↪ '
+ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}⤻ '
 ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
 
 PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

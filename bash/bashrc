@@ -24,7 +24,7 @@ export PHABRICATOR_ENV=custom/myconfig
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 # Passwords and stuff. Not included in the repo!
-. ~/dotfiles/bash/private
+source ~/dotfiles/private
 
 # Paths ======================================================================
 
@@ -69,7 +69,7 @@ alias ll='ls -lh'
 alias la='ls -ah'
 alias lf='find . -name'
 
-alias ssudo="echo $PASSPHRASE|sudo -p '' -kS"
+alias ssudo="echo $PASSWORD_SECRET|sudo -p '' -kS"
 
 alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
 
@@ -80,8 +80,17 @@ alias qthelp="$(brew --prefix qt5)/Assistant.app/Contents/MacOS/Assistant -colle
 
 # Functions ==================================================================
 
+function capture() {
+    sudo dtrace -p "$1" -qn '
+        syscall::write*:entry
+        /pid == $target && arg0 == 1/ {
+            printf("%s", copyinstr(arg1, arg2));
+        }
+    '
+}
+
 # Copy my public key to a server via SSH
-ssh-copykey() {
+function ssh-copykey() {
     if [[ -z "$1" ]]; then
         echo "You need to enter a hostname in order to send your public key."
     else
@@ -92,13 +101,11 @@ ssh-copykey() {
 }
 
 # cd to the brew directory of the given package
-cdbrew() {
+function cdbrew() {
     cd $(brew --prefix $1)
 }
 
 # External scripts ===========================================================
-
-# brew-php-switcher 53
 
 if [ $TERM != 'dumb' ]; then
     GIT_PROMPT_THEME=Solarized
