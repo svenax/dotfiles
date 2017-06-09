@@ -9,11 +9,15 @@ hash -d vers=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-versions/Casks
 #export QTDIR=/Users/sven/Qt5.7.1/5.7/clang_64
 export QTDIR=/Users/sven/Qt5.8.0/5.8/clang_64
 
+export GOPATH=/Sources/Go
+
 path=(
     ~/bin
+    ~/.cargo/bin
     ~/.composer/vendor/bin
     ~/.rbenv/bin
     $QTDIR/bin
+    $GOPATH/bin
     /usr/local/bin
     /usr/local/sbin
     $path
