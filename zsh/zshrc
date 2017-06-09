@@ -9,7 +9,6 @@ source $ZPLUG_HOME/init.zsh
 
 zplugs=()
 
-zplug 'andrewferrier/fzf-z'
 zplug 'bric3/nice-exit-code'
 zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh' #, hook-build:'stack build && stack install'
 zplug "plugins/z", from:'oh-my-zsh'
