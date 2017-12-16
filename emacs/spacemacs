@@ -3,9 +3,8 @@
 ;; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
-  "Configuration Layers declaration.
-You should not put any user code in this function besides modifying the variable
-values."
+  "Layer configuration:
+This function should only modify configuration layer settings."
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
@@ -25,6 +24,7 @@ values."
      emacs-lisp
      git
      github
+     golang
      osx
      org
      semantic
@@ -36,16 +36,13 @@ values."
                       syntax-checking-enable-by-default nil)
      ;; +lang ----------------------------------------------------------
      c-c++
-     clojure
+     go
      html
      javascript
      latex
      markdown
      php
      restclient
-     (scala :variables
-            scala-indent:use-javadoc-style nil
-            scala-indent:indent-value-expression t)
      sql
      yaml
      ;; +tools ---------------------------------------------------------
@@ -189,6 +186,7 @@ layers configuration. You are free to put any user code."
  ;; If there is more than one, they won't work right.
  '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
  '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
+
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
@@ -199,10 +197,15 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(custom-safe-themes
+   (quote
+    ("fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
  '(exec-path-from-shell-arguments (quote ("-l")))
  '(package-selected-packages
    (quote
-    (magithub dash fuzzy highlight skewer-mode haml-mode winum bind-key bind-map restclient-helm ob-restclient company-restclient know-your-http-well hide-comnt helm-purpose window-purpose imenu-list inflections pug-mode hl-anything undo-tree s magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache noflet ensime sbt-mode scala-mode restclient ob-http auctex simple-httpd auto-complete f evil request alert git-commit with-editor hydra js2-mode osx-dictionary dumb-jump org ht php-mode markdown-mode tern cider clojure-mode anzu iedit smartparens flycheck company helm helm-core multiple-cursors avy projectile magit magit-popup async yasnippet evil-unimpaired zenburn-theme yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit stickyfunc-enhance srefactor sql-indent spacemacs-theme spaceline solarized-theme smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters quelpa popwin phpunit phpcbf php-extras php-auto-yasnippets persp-mode pcre2el pbcopy paradox pandoc-mode ox-pandoc osx-trash orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode mediawiki markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig drupal-mode disaster define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex column-enforce-mode coffee-mode cmake-mode clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
+    (realgud org-category-capture go-guru diff-hl company-go browse-at-remote ac-php-core go-mode skewer-mode haml-mode dash cmake-ide levenshtein restclient-helm ob-restclient company-restclient know-your-http-well hide-comnt helm-purpose window-purpose imenu-list inflections pug-mode hl-anything undo-tree s magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache noflet ensime sbt-mode scala-mode restclient ob-http auctex simple-httpd auto-complete f evil request alert git-commit with-editor hydra js2-mode osx-dictionary dumb-jump org ht php-mode markdown-mode tern cider clojure-mode anzu iedit smartparens flycheck company helm helm-core multiple-cursors avy projectile magit magit-popup async yasnippet evil-unimpaired zenburn-theme yaml-mode xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit stickyfunc-enhance srefactor sql-indent spacemacs-theme spaceline solarized-theme smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters quelpa popwin phpunit phpcbf php-extras php-auto-yasnippets persp-mode pcre2el pbcopy paradox pandoc-mode ox-pandoc osx-trash orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree multi-term move-text monokai-theme mmm-mode mediawiki markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode launchctl json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig drupal-mode disaster define-word company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex column-enforce-mode coffee-mode cmake-mode clojure-snippets clj-refactor clean-aindent-mode clang-format cider-eval-sexp-fu bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-github-token t)
  '(vc-follow-symlinks nil))
 (custom-set-faces
