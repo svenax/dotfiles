@@ -11,10 +11,10 @@ zplugs=()
 
 zplug 'bric3/nice-exit-code'
 zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh' #, hook-build:'stack build && stack install'
-zplug "plugins/z", from:'oh-my-zsh'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
-
+zplug 'changyuheng/fz', defer:1
+zplug 'rupa/z', use:z.sh
 zplug check || zplug install
 zplug load
 
@@ -50,6 +50,10 @@ HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=10000
 SAVEHIST=50000
 
+export HISTFILE=~/.zsh_history
+export HH_CONFIG=hicolor
+bindkey -s "\C-r" "\eqhh\n"
+
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
@@ -70,12 +74,15 @@ export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export PAGER=less
 
+LESSPIPE=`which src-hilite-lesspipe.sh`
+export LESSOPEN="| ${LESSPIPE} %s"
+export LESS=' -R -F '
+
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 export ALTERNATE_EDITOR=''
-#export EDITOR='emacsclient -t'
-export EDITOR='subl -nw'
+export EDITOR='code -nw'
 
 # Aliases =====================================================================
 
@@ -87,16 +94,11 @@ alias -g .....='../../../..'
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
+alias less=$PAGER
 alias mkdir='mkdir -pv'
 alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
-alias ag='ag --pager "less -R"'
 alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
-alias git=hub
-
-alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
-alias ec='emacsclient -n -c'
-alias et='emacsclient -t'
 
 alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
 alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
@@ -113,15 +115,6 @@ source ~/dotfiles/private
 
 # Functions ===================================================================
 
-function capture() {
-    sudo dtrace -p "$1" -qn '
-        syscall::write*:entry
-        /pid == $target && arg0 == 1/ {
-            printf("%s", copyinstr(arg1, arg2));
-        }
-    '
-}
-
 # Copy my public key to a server via SSH
 function ssh-copykey() {
     if [[ -z "$1" ]]; then
@@ -136,6 +129,11 @@ function ssh-copykey() {
 # cd to the brew directory of the given package
 function cdbrew() {
     cd $(brew --prefix $1)
+}
+
+# Kill processes listening to the given port
+function killport() {
+    lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9
 }
 
 # Prompt ======================================================================
@@ -160,3 +158,9 @@ ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
 PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/sven/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/sven/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/sven/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/sven/google-cloud-sdk/completion.zsh.inc'; fi

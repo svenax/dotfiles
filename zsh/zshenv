@@ -5,10 +5,7 @@ hash -d cellar=/usr/local/Cellar
 hash -d cask=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask/Casks
 hash -d vers=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-versions/Casks
 
-#export QTDIR=/Users/sven/Qt5.6.1/5.6/clang_64
-#export QTDIR=/Users/sven/Qt5.7.1/5.7/clang_64
 export QTDIR=/Users/sven/Qt5.8.0/5.8/clang_64
-
 export GOPATH=/Sources/Go
 
 path=(
@@ -41,5 +38,6 @@ fpath=(
 )
 typeset -U fpath
 
-eval "$(rbenv init -)"
-eval $(docker-machine env default)
+eval "$(hub alias -s)"
+# eval "$(rbenv init -)"
+# eval $(docker-machine env default)
