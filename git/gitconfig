@@ -37,6 +37,7 @@
         precomposeunicode = true
         quotepath = off
         whitespace = cr-at-eol
+        pager = less
 [color]
         branch = auto
         diff = auto
@@ -47,25 +48,27 @@
         remote = yellow
 [diff]
         tool = araxis
-[merge]
-        tool = araxis
 [difftool]
         prompt = false
+[difftool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/araxiscompare-w.sh -2 \"$LOCAL\" \"$REMOTE\"
+	path = 
+[merge]
+        tool = araxis
 [mergetool]
         keepBackup = true
         prompt = false
-[filter "media"]
-        required = true
-        clean = git media clean %f
-        smudge = git media smudge %f
-[filter "hawser"]
-        clean = git hawser clean %f
-        smudge = git hawser smudge %f
-        required = true
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/araxisgitmerge-w.sh \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\"
+	trustExitCode = true
 [push]
         default = current
+[rerere]
+        enabled = true
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+        required = true
+[commit]
+        template = /Users/sven/.stCommitMsg
