@@ -6,7 +6,6 @@ autoload -U zmv
 
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
-
 zplugs=()
 
 zplug 'bric3/nice-exit-code'
@@ -91,10 +90,10 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 
+alias gg='rg -p'
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
-alias less=$PAGER
 alias mkdir='mkdir -pv'
 alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
@@ -104,8 +103,8 @@ alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profile
 alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
 alias phpxt-analyze='php ~/bin/tracefile-analyzer.php'
 
-alias -g G='|grep'
-alias -g L='|less'
+alias -g G='|gg'
+alias -g L='|less -R'
 alias -g NULL='> /dev/null 2>&1'
 
 # Passwords and stuff. Not included in the repo!
@@ -114,6 +113,9 @@ source ~/dotfiles/private
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Functions ===================================================================
+function gp() {
+   gg "$@" | less -FRX
+}
 
 # Copy my public key to a server via SSH
 function ssh-copykey() {
@@ -134,6 +136,13 @@ function cdbrew() {
 # Kill processes listening to the given port
 function killport() {
     lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9
+}
+
+# Use fzf with z
+unalias z 2> /dev/null
+z() {
+  [ $# -gt 0 ] && _z "$*" && return
+  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
 # Prompt ======================================================================
@@ -158,9 +167,3 @@ ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
 PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/sven/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/sven/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/sven/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/sven/google-cloud-sdk/completion.zsh.inc'; fi

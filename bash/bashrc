@@ -73,8 +73,6 @@ alias ssudo="echo $PASSWORD_SECRET|sudo -p '' -kS"
 
 alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
 
-alias git=hub
-
 alias assistant="$(brew --prefix qt5)/Assistant.app/Contents/MacOS/Assistant"
 alias qthelp="$(brew --prefix qt5)/Assistant.app/Contents/MacOS/Assistant -collectionFile"
 

@@ -1,31 +1,29 @@
-hash -d sax=/Sources/Svenax
-hash -d swk=/Sources/Work
-hash -d ssax=/Sources/Work/Sven
 hash -d cellar=/usr/local/Cellar
 hash -d cask=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask/Casks
 hash -d vers=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-versions/Casks
 
-export QTDIR=/Users/sven/Qt5.8.0/5.8/clang_64
-export GOPATH=/Sources/Go
+export GOPATH=/Users/sven/go
+export GOBIN=$GOPATH/bin
 
 path=(
     ~/bin
-    ~/.cargo/bin
+    $GOBIN
     ~/.composer/vendor/bin
-    ~/.rbenv/bin
-    $QTDIR/bin
-    $GOPATH/bin
+    /Library/TeX/texbin
     /usr/local/bin
     /usr/local/sbin
-    $path
+    /usr/bin
+    /usr/sbin
+    /bin
+    /sbin
 )
 typeset -U path
 export PATH
 
 cdpath=(
     .
-    /Sources/Svenax/
-    /Sources/Work/
+    ~/src
+    ~/swk
     ~/Documents/Work/
     ~/dotfiles/
 )
@@ -38,6 +36,6 @@ fpath=(
 )
 typeset -U fpath
 
-eval "$(hub alias -s)"
+# eval "$(hub alias -s)"
 # eval "$(rbenv init -)"
 # eval $(docker-machine env default)
