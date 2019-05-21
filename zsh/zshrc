@@ -49,17 +49,13 @@ HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=10000
 SAVEHIST=50000
 
+alias hh=hstr
 export HISTFILE=~/.zsh_history
 export HH_CONFIG=hicolor
-bindkey -s "\C-r" "\eqhh\n"
+bindkey -s "\C-r" "\eqhstr\n"
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
-
-# Convenience when the Homebew install paths are needed
-phpver=$(php-config --vernum)
-phpver="php${phpver[1,2]}"
-phpprefix="/usr/local/opt/${phpver}"
 
 NEWLINE=$'\n'
 PWNL=$PASSWORD_SECRET$NEWLINE
@@ -72,10 +68,6 @@ export LC_CTYPE=se_SV.UTF-8
 export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export PAGER=less
-
-LESSPIPE=`which src-hilite-lesspipe.sh`
-export LESSOPEN="| ${LESSPIPE} %s"
-export LESS=' -R -F '
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
@@ -90,20 +82,20 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 
-alias gg='rg -p'
+alias rg='rg -p'
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
 alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
-alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
-
+alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated && echo -e "==> \033[1mOutdated casks\033[0m" && brew cask outdated'
+alias brewug='brew upgrade && brew cask upgrade'
 alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
 alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
 alias phpxt-analyze='php ~/bin/tracefile-analyzer.php'
 
-alias -g G='|gg'
+alias -g G='|rg'
 alias -g L='|less -R'
 alias -g NULL='> /dev/null 2>&1'
 
@@ -113,8 +105,8 @@ source ~/dotfiles/private
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Functions ===================================================================
-function gp() {
-   gg "$@" | less -FRX
+function rp() {
+   rg "$@" | less -FRX
 }
 
 # Copy my public key to a server via SSH
@@ -158,8 +150,6 @@ function precmd() {
     unset timer
   fi
 }
-
-# GIT_PROMPT_EXECUTABLE='haskell'
 
 ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}⤻ '
 ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
