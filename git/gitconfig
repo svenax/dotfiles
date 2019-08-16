@@ -38,6 +38,7 @@
         quotepath = off
         whitespace = cr-at-eol
         pager = /usr/bin/less
+	hooksPath = /Users/sven/dotfiles/git/hooks
 [color]
         branch = auto
         diff = auto

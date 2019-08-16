@@ -1,0 +1,10 @@
+#!/bin/sh
+git diff --cached --name-status | while read st file; do
+  # skip deleted files
+  if [ "$st" == 'D' ]; then continue; fi
+  if [[ "$(grep -c '@gitignore' $file)" -ge 1 ]]
+  then
+      echo "Flagged as @gitignore: $file"
+      exit 1
+   fi  
+done
