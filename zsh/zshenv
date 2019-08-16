@@ -13,9 +13,7 @@ typeset -U path
 path=(
     ~/bin
     $GOBIN
-    $QTDIR/bin
     ~/.composer/vendor/bin
-    ~/.fastlane/bin
     ~/.local/bin
     /Library/TeX/texbin
     /usr/local/bin
@@ -24,7 +22,6 @@ path=(
     /usr/sbin
     /bin
     /sbin
-    $path
 )
 
 typeset -U cdpath
@@ -45,5 +42,5 @@ fpath=(
 )
 
 # eval "$(hub alias -s)"
-# eval "$(rbenv init -)"
-# eval $(docker-machine env default)
+eval "$(pyenv init -)"
+eval "$(pipenv --completion)"
