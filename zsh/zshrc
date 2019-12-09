@@ -105,34 +105,39 @@ source ~/dotfiles/private
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Functions ===================================================================
+function touchp()
+{
+  mkdir -p $(dirname "${1}") && touch "${1}"
+}
+
 function rp() {
-   rg "$@" | less -FRX
+  rg "$@" | less -FRX
 }
 
 # Copy my public key to a server via SSH
 function ssh-copykey() {
-    if [[ -z "$1" ]]; then
-        echo "You need to enter a hostname in order to send your public key."
-    else
-        echo "* Copying SSH public key to server..."
-        ssh ${1} "mkdir -p ~/.ssh && cat - >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
-        echo "* All done."
-    fi
+  if [[ -z "$1" ]]; then
+    echo "You need to enter a hostname in order to send your public key."
+  else
+    echo "* Copying SSH public key to server..."
+    ssh ${1} "mkdir -p ~/.ssh && cat - >> ~/.ssh/authorized_keys" < ~/.ssh/id_rsa.pub
+    echo "* All done."
+  fi
 }
 
 # cd to the brew directory of the given package
 function cdbrew() {
-    cd $(brew --prefix $1)
+  cd $(brew --prefix $1)
 }
 
 # Kill processes listening to the given port
 function killport() {
-    lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9
+  lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9
 }
 
 # Use fzf with z
 unalias z 2> /dev/null
-z() {
+function z() {
   [ $# -gt 0 ] && _z "$*" && return
   cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }

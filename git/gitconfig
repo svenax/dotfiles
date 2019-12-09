@@ -3,7 +3,7 @@
         ci = commit
         cia = commit -a --amend --no-edit
         co = checkout
-        delete-merged-branches = !sh -c 'git branch --merged master | grep -v master | xargs -n 1 git branch -d'
+        delete-merged-branches = !sh -c 'git branch --merged "${1:-develop}" | grep -v "${1:-develop}" | xargs -n 1 git branch -d' -
         g = grep --break --heading --line-number
         mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
         pullall = !~/bin/git-pullall.sh
@@ -73,3 +73,5 @@
         required = true
 [commit]
 	template = /Users/sven/.stCommitMsg
+[gpg]
+	program = /usr/local/bin/gpg

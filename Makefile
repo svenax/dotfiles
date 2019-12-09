@@ -16,7 +16,8 @@ symlinks:
 	# ln -sf $(DIR)/emacs/spacemacs ~/.spacemacs
 	ln -sf $(DIR)/git/gitconfig ~/.gitconfig
 	ln -sf $(DIR)/git/gitignore_global ~/.gitignore_global
-	ln -sf $(DIR)/git/tigrc ~/.tigrc
+	# ln -sf $(DIR)/git/tigrc ~/.tigrc
+	ln -sf $(DIR)/latex/latexmkrc ~/.latexmkrc
 	ln -nsf $(DIR)/vim/vim ~/.vim
 	ln -sf $(DIR)/vim/vimrc ~/.vimrc
 	# ln -nsf $(DIR)/vim/vim ~/.nvim
