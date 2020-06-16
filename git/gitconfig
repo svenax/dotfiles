@@ -3,23 +3,20 @@
         ci = commit
         cia = commit -a --amend --no-edit
         co = checkout
-        delete-merged-branches = !sh -c 'git branch --merged "${1:-develop}" | grep -v "${1:-develop}" | xargs -n 1 git branch -d' -
+        delete-merged-branches = !sh -c 'git branch --merged "${1:-master}" | grep -v "${1:-master}" | xargs -n 1 git branch -d' -
         g = grep --break --heading --line-number
-        mr = !sh -c 'git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2' -
+        mr = !~/bin/git-mr
         pullall = !~/bin/git-pullall.sh
         pullo = pull -s recursive -X ours
         pullr = pull --rebase --autostash
         pullt = pull -s recursive -X theirs
         pushf = push --force
+        rebase-merge = !~/bin/git-rebase-via-merge.sh
         st = status
         subrm = !~/bin/git-subrm.sh
         subup = submodule foreach 'git pull -s recursive -X theirs'
         unstash = stash pop
         wtf = !~/bin/git-wtf
-        # Flow
-        ff = flow feature
-        fh = flow hotfix
-        fr = flow release
         # Logs
         changed = "!sh -c 'git log --name-only --pretty=\"%%\" \"$@\" | sort -u | sed \"1,2d\"' -"
         glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
@@ -31,7 +28,8 @@
         touches = log --name-only --no-walk
 [user]
 	name = Sven Axelsson
-	email = sven@axelsson.expert
+	email = sven@netconsult.se
+	signingKey = ""
 [core]
 	excludesfile = /Users/sven/.gitignore_global
         precomposeunicode = true
@@ -53,7 +51,7 @@
         prompt = false
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [merge]
 	tool = araxis
 [mergetool]
@@ -65,13 +63,15 @@
 [push]
         default = current
 [rerere]
-        enabled = true
-[filter "lfs"]
-        clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-        required = true
+	enabled = true
 [commit]
 	template = /Users/sven/.stCommitMsg
+	gpgSign = false
 [gpg]
 	program = /usr/local/bin/gpg
+[mailmap]
+        file = /Users/sven/.mailmap
+[tag]
+	forceSignAnnotated = false
+[pull]
+	rebase = true

@@ -22,6 +22,7 @@ symlinks:
 	ln -sf $(DIR)/vim/vimrc ~/.vimrc
 	# ln -nsf $(DIR)/vim/vim ~/.nvim
 	# ln -sf $(DIR)/vim/vimrc ~/.nvimrc
+	ln -sf $(DIR)/vim/ideavimrc ~/.ideavimrc
 	ln -sf $(DIR)/zsh/zshenv ~/.zshenv
 	ln -sf $(DIR)/zsh/zshrc ~/.zshrc
 
