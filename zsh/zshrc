@@ -93,13 +93,8 @@ alias la='ls -a'
 alias mkdir='mkdir -pv'
 alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
-alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated && echo -e "==> \033[1mOutdated casks\033[0m" && brew cask outdated'
-alias brewug='brew upgrade && brew cask upgrade'
-alias phpxp='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
-alias phpxt='php -dzend_extension=${phpprefix}-xdebug/xdebug.so -dxdebug.auto_trace=1 -dxdebug.trace_format=1 -dxdebug.trace_output_dir=.'
-alias phpxt-analyze='php ~/bin/tracefile-analyzer.php'
-
-alias phpdebug='sudo ifconfig lo0 alias 172.16.123.1'
+alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
+alias brewug='brew upgrade && brew upgrade --cask'
 
 alias -g G='|rg'
 alias -g L='|less -R'
@@ -133,7 +128,7 @@ function cdbrew() {
 
 # Kill processes listening to the given port
 function killport() {
-  lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9
+  lsof -t -i TCP:$1 -s TCP:LISTEN | xargs kill -9
 }
 
 # Use fzf with z
@@ -164,7 +159,6 @@ PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export NVM_DIR="${HOME}/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-path[1,0]=/usr/local/opt/bison/bin
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"

@@ -29,14 +29,12 @@
 [user]
 	name = Sven Axelsson
 	email = sven@netconsult.se
-	signingKey = ""
 [core]
 	excludesfile = /Users/sven/.gitignore_global
         precomposeunicode = true
         quotepath = off
         whitespace = cr-at-eol
         pager = /usr/bin/less
-	hooksPath = /Users/sven/dotfiles/git/hooks
 [color]
         branch = auto
         diff = auto
@@ -73,5 +71,3 @@
         file = /Users/sven/.mailmap
 [tag]
 	forceSignAnnotated = false
-[pull]
-	rebase = true
