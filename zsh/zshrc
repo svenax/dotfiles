@@ -19,6 +19,10 @@ zplug load
 
 # Configuration ===============================================================
 
+# Passwords and stuff. Not included in the repo!
+[ -f ~/dotfiles/private ] && source ~/dotfiles/private
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 setopt AUTO_LIST
 setopt AUTO_MENU
 setopt EXTENDED_HISTORY
@@ -74,10 +78,6 @@ export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'
-
-# Passwords and stuff. Not included in the repo!
-source ~/dotfiles/private
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Aliases =====================================================================
 
