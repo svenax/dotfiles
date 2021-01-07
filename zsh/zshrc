@@ -12,8 +12,7 @@ zplug 'bric3/nice-exit-code'
 zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh' #, hook-build:'stack build && stack install'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
-zplug 'changyuheng/fz', defer:1
-zplug 'rupa/z', use:z.sh
+zplug 'agkozak/zsh-z'
 zplug check || zplug install
 zplug load
 
@@ -129,13 +128,6 @@ function cdbrew() {
 # Kill processes listening to the given port
 function killport() {
   lsof -t -i TCP:$1 -s TCP:LISTEN | xargs kill -9
-}
-
-# Use fzf with z
-unalias z 2> /dev/null
-function z() {
-  [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
 # Prompt ======================================================================

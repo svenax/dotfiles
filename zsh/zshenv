@@ -7,29 +7,17 @@ export SAXON=/usr/local/bin/saxon
 export GOPATH=/Users/sven/go
 export GOBIN=$GOPATH/bin
 
-export CARGOPATH=$HOME/.cargo
-export CARGOBIN=$CARGOPATH/bin
-
 export LDFLAGS="-L/usr/local/opt/bison/lib"
 
-export MONO_GAC_PREFIX=/usr/local
-
 export OPENSSL_ROOT_DIR=/usr/local/opt/openssl
-
-PERL5LIB="/Users/sven/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/Users/sven/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/Users/sven/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/sven/perl5"; export PERL_MM_OPT;  
 
 typeset -U path
 path=(
     ~/bin
     $GOBIN
-    $CARGOBIN
     /usr/local/opt/awscli@1/bin
     ~/.composer/vendor/bin
     ~/.local/bin
-    ~/perl5/bin
     /Library/TeX/texbin
     /usr/local/bin
     /usr/local/sbin
@@ -37,16 +25,6 @@ path=(
     /usr/sbin
     /bin
     /sbin
-)
-
-typeset -U cdpath
-cdpath=(
-    .
-    ~/src
-    ~/swk
-    ~/Documents/Work/
-    ~/dotfiles/
-    $cdpath
 )
 
 typeset -U fpath
