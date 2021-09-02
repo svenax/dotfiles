@@ -36,3 +36,4 @@ fpath=(
 
 # eval "$(hub alias -s)"
 # eval "$(pipenv --completion)"
+. "$HOME/.cargo/env"

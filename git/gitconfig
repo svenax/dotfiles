@@ -6,15 +6,17 @@
         delete-merged-branches = !sh -c 'git branch --merged "${1:-master}" | grep -v "${1:-master}" | xargs -n 1 git branch -d' -
         g = grep --break --heading --line-number
         mr = !~/bin/git-mr
+        pick = cherry-pick
+        pickt = cherry-pick --strategy=recursive -X theirs
         pullall = !~/bin/git-pullall.sh
         pullo = pull -s recursive -X ours
         pullr = pull --rebase --autostash
-        pullt = pull -s recursive -X theirs
-        pushf = push --force
+        pullt = pull --strategy=recursive -X theirs
+        pushf = push --force-with-lease
         rebase-merge = !~/bin/git-rebase-via-merge.sh
         st = status
         subrm = !~/bin/git-subrm.sh
-        subup = submodule foreach 'git pull -s recursive -X theirs'
+        subup = submodule foreach 'git pull --strategy=recursive -X theirs'
         unstash = stash pop
         wtf = !~/bin/git-wtf
         # Logs
@@ -28,7 +30,7 @@
         touches = log --name-only --no-walk
 [user]
 	name = Sven Axelsson
-	email = sven@netconsult.se
+	email = himself@svenax.net
 [core]
 	excludesfile = /Users/sven/.gitignore_global
         precomposeunicode = true
@@ -71,3 +73,8 @@
         file = /Users/sven/.mailmap
 [tag]
 	forceSignAnnotated = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

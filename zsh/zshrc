@@ -132,22 +132,7 @@ function killport() {
 
 # Prompt ======================================================================
 
-function preexec() {
-  timer=${timer:-$SECONDS}
-}
-
-function precmd() {
-  if [ $timer ]; then
-    timer_show=$(($SECONDS - $timer))
-    export RPROMPT='$(nice_exit_code) %F{3}${timer_show}s%f'
-    unset timer
-  fi
-}
-
-ZSH_PROMPT_EXIT_SIGNAL_PREFIX='%F{1}⤻ '
-ZSH_PROMPT_EXIT_SIGNAL_SUFFIX='%f'
-
-PROMPT='%F{6}%~%f $(git_super_status)%f${NEWLINE}%F{5}[%F{2}%*%F{5}]%f # '
+eval "$(starship init zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

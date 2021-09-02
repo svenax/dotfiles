@@ -12,8 +12,8 @@ symlinks:
 	ln -sf $(DIR)/bash/bashrc ~/.bashrc
 	ln -sf $(DIR)/bash/inputrc ~/.inputrc
 	# ln -nsf $(DIR)/emacs/emacs.d ~/.emacs.d
-	# ln -nsf $(DIR)/emacs/spacemacs.d ~/.emacs.d
-	# ln -sf $(DIR)/emacs/spacemacs ~/.spacemacs
+	ln -nsf $(DIR)/emacs/spacemacs.d ~/.emacs.d
+	ln -sf $(DIR)/emacs/spacemacs ~/.spacemacs
 	ln -sf $(DIR)/git/gitconfig ~/.gitconfig
 	ln -sf $(DIR)/git/gitignore_global ~/.gitignore_global
 	# ln -sf $(DIR)/git/tigrc ~/.tigrc
@@ -22,6 +22,7 @@ symlinks:
 	ln -sf $(DIR)/vim/vimrc ~/.vimrc
 	ln -sf $(DIR)/zsh/zshenv ~/.zshenv
 	ln -sf $(DIR)/zsh/zshrc ~/.zshrc
+	ln -sf $(DIR)/starship.toml ~/.config/starship.toml
 
 ensure_vundle: symlinks
 	[ ! -d  ~/.vim/bundle/Vundle.vim ] && git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
