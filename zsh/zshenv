@@ -1,24 +1,19 @@
-hash -d cellar=/usr/local/Cellar
-hash -d cask=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-cask/Casks
-hash -d vers=/usr/local/Homebrew/Library/Taps/caskroom/homebrew-versions/Casks
+hash -d cellar=/opt/homebrew/Cellar
+hash -d cask=/opt/homebrew/Library/Taps/caskroom/homebrew-cask/Casks
+hash -d vers=/opt/homebrew/Library/Taps/caskroom/homebrew-versions/Casks
 
 export SAXON=/usr/local/bin/saxon
-
-export GOPATH=/Users/sven/go
+export GOPATH=/Users/svenax/go
 export GOBIN=$GOPATH/bin
-
-export LDFLAGS="-L/usr/local/opt/bison/lib"
-
-export OPENSSL_ROOT_DIR=/usr/local/opt/openssl
 
 typeset -U path
 path=(
     ~/bin
     $GOBIN
-    /usr/local/opt/awscli@1/bin
     ~/.composer/vendor/bin
     ~/.local/bin
     /Library/TeX/texbin
+    /opt/homebrew/bin
     /usr/local/bin
     /usr/local/sbin
     /usr/bin
@@ -29,11 +24,10 @@ path=(
 
 typeset -U fpath
 fpath=(
-    /usr/local/share/zsh/zsh-completions
-    /usr/local/share/zsh/functions
+    /opt/homebrew/share/zsh/zsh-completions
+    /opt/homebrew/share/zsh/site-functions
     $fpath
 )
 
 # eval "$(hub alias -s)"
 # eval "$(pipenv --completion)"
-. "$HOME/.cargo/env"

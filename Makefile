@@ -1,4 +1,5 @@
-DIR=/Users/sven/dotfiles
+
+DIR=/Users/svenax/dotfiles
 SHELL=/bin/bash
 
 .PHONY:
