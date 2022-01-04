@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: var_dump
-# key: xvd
-# --
-var_dump($1);$0

@@ -1,1 +1,0 @@
-/Users/sven/.vimrc

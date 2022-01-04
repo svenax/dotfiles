@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: require_once
-# key: req1
-# --
-require_once '$1';
