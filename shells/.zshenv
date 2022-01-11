@@ -1,15 +1,10 @@
-hash -d cellar=/opt/homebrew/Cellar
-hash -d cask=/opt/homebrew/Library/Taps/caskroom/homebrew-cask/Casks
-hash -d vers=/opt/homebrew/Library/Taps/caskroom/homebrew-versions/Casks
-
 export SAXON=/usr/local/bin/saxon
-export GOPATH=/Users/svenax/go
-export GOBIN=$GOPATH/bin
+export GOPATH=$HOME/.local/share/go
 
 typeset -U path
 path=(
     ~/bin
-    $GOBIN
+    $GOPATH/bin
     ~/.composer/vendor/bin
     ~/.local/bin
     /Library/TeX/texbin

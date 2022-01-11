@@ -15,12 +15,11 @@ export HISTFILESIZE=100000
 shopt -s histappend
 shopt -s cmdhist
 
-export EDITOR=vim
+export EDITOR=code -nw
 export PAGER=less
 
 # Applications
 export JAVA_HOME=$(/usr/libexec/java_home)
-export PHABRICATOR_ENV=custom/myconfig
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 # Passwords and stuff. Not included in the repo!
@@ -33,7 +32,6 @@ source ~/dotfiles/private
 # Remember that the order here is important
 paths=(
     '~/bin'
-    "$(brew --prefix qt5)/bin"
     '/usr/texbin'
     '/usr/local/bin'
     '/usr/local/sbin'

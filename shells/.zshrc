@@ -1,5 +1,4 @@
 autoload -U compinit && compinit
-autoload -U promptinit && promptinit
 autoload -U zmv
 
 # Plugins =====================================================================
@@ -8,8 +7,7 @@ export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplugs=()
 
-zplug 'bric3/nice-exit-code'
-zplug 'olivierverdier/zsh-git-prompt', use:'zshrc.sh' #, hook-build:'stack build && stack install'
+zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'agkozak/zsh-z'
@@ -20,10 +18,10 @@ zplug load
 
 # Passwords and stuff. Not included in the repo!
 [ -f ~/dotfiles/private ] && source ~/dotfiles/private
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 setopt AUTO_LIST
 setopt AUTO_MENU
+setopt CD_SILENT
 setopt EXTENDED_HISTORY
 setopt HIST_EXPAND
 setopt HIST_EXPIRE_DUPS_FIRST
@@ -40,13 +38,14 @@ setopt NO_BEEP
 setopt PROMPT_SUBST
 setopt SHARE_HISTORY
 
+stty stop undef
+zle_highlight=('paste:none')
+
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select=0
 zstyle ':completion:*:complete:(cd|pushd):*' tag-order 'local-directories named-directories path-directories'
 zstyle ":completion:*:descriptions" format "%B--- %d%b"
 zstyle ':completion:*' group-name ''
-
-# zmodload zsh/complist
 
 HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=10000
@@ -63,8 +62,8 @@ bindkey '^[[B' down-line-or-search
 NEWLINE=$'\n'
 PWNL=$PASSWORD_SECRET$NEWLINE
 
-export LANG=en_US.UTF-8
 export DISPLAY=:0
+export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_COLLATE=se_SV.UTF-8
 export LC_CTYPE=se_SV.UTF-8
@@ -133,7 +132,7 @@ function killport() {
 
 # Prompt ======================================================================
 
-eval "$(/opt/homebrew/bin/starship init zsh)"
+eval "$($(brew --prefix)/bin/starship init zsh)"
 eval "$(fnm env)"
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
