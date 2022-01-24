@@ -1,0 +1,109 @@
+tap "aws/tap"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/core"
+brew "awscli"
+brew "awscli@1"
+brew "bison"
+brew "php"
+brew "composer"
+brew "docker", link: false
+brew "espeak"
+brew "fd"
+brew "harfbuzz"
+brew "ffmpeg"
+brew "gh"
+brew "git-extras"
+brew "go"
+brew "goreman"
+brew "graphviz"
+brew "hstr"
+brew "htop"
+brew "httpie"
+brew "hub"
+brew "lilypond"
+brew "lnav", args: ["HEAD"]
+brew "mas"
+brew "neovim"
+brew "node"
+brew "nss"
+brew "nvm"
+brew "openjdk"
+brew "pandoc"
+brew "pandoc-crossref"
+brew "poetry"
+brew "ranger"
+brew "ripgrep"
+brew "starship"
+brew "tig"
+brew "translate-shell"
+brew "zenith"
+brew "zplug"
+brew "aws/tap/aws-sam-cli"
+cask "1password"
+cask "adguard"
+cask "atext"
+cask "bartender"
+cask "betterzip"
+cask "cleanmymac"
+cask "cleanshot"
+cask "dash"
+cask "devonthink"
+cask "docker"
+cask "dropbox"
+cask "dropdmg"
+cask "emacs"
+cask "fantastical"
+cask "firefox"
+cask "font-fira-mono-nerd-font"
+cask "font-iosevka-ss03"
+cask "font-jetbrains-mono-nerd-font"
+cask "forklift"
+cask "google-chrome"
+cask "hammerspoon"
+cask "istat-menus"
+cask "iterm2"
+cask "java"
+cask "jetbrains-toolbox"
+cask "keyboard-maestro"
+cask "kitty"
+cask "launchbar"
+cask "mactex"
+cask "microsoft-teams"
+cask "ngrok"
+cask "parallels"
+cask "paw"
+cask "pdf-expert"
+cask "popchar"
+cask "slack"
+cask "snagit"
+cask "spotify"
+cask "stay"
+cask "sublime-merge"
+cask "tableplus"
+cask "tower"
+cask "visual-studio-code"
+cask "vlc"
+mas "Agenda", id: 1287445660
+mas "Airmail", id: 918858936
+mas "Daily", id: 686910553
+mas "Day One", id: 1055511498
+mas "Forecast Bar", id: 982710545
+mas "forScore", id: 363738376
+mas "Keynote", id: 409183694
+mas "MacFamilyTree 9", id: 1458866808
+mas "Magnet", id: 441258766
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft OneNote", id: 784801555
+mas "Numbers", id: 409203825
+mas "OneDrive", id: 823766827
+mas "Pages", id: 409201541
+mas "Parcel", id: 639968404
+mas "Pixelmator Pro", id: 1289583905
+mas "Reeder", id: 1529448980
+mas "Things", id: 904280696
+mas "Ulysses", id: 1225570693
+mas "Xcode", id: 497799835
+mas "XDebugToggle", id: 1437227804
+mas "Yoink", id: 457622435

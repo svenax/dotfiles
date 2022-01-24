@@ -3,11 +3,10 @@ autoload -U zmv
 
 # Plugins =====================================================================
 
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplugs=()
 
-zplug 'zsh-users/zsh-autosuggestions'
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'agkozak/zsh-z'
@@ -17,7 +16,7 @@ zplug load
 # Configuration ===============================================================
 
 # Passwords and stuff. Not included in the repo!
-[ -f ~/dotfiles/private ] && source ~/dotfiles/private
+[ -f ~/dotfiles/secret/private ] && source ~/dotfiles/secret/private
 
 setopt AUTO_LIST
 setopt AUTO_MENU
@@ -71,6 +70,7 @@ export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export PAGER=less
 
+export COMPOSE_FILES
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
