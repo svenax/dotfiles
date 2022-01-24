@@ -77,6 +77,8 @@ export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'
 
+export ZSHZ_DATA=~/.cache/zshz/data
+
 # Aliases =====================================================================
 
 alias '..'='cd ..'
@@ -88,6 +90,7 @@ alias rg='rg -p'
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
+alias gl='glances --theme-white'
 alias mkdir='mkdir -pv'
 alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
@@ -100,8 +103,7 @@ alias -g NULL='> /dev/null 2>&1'
 
 # Functions ===================================================================
 
-function touchp()
-{
+function touchp() {
   mkdir -p $(dirname "${1}") && touch "${1}"
 }
 

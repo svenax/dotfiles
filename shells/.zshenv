@@ -1,5 +1,5 @@
 export SAXON=/usr/local/bin/saxon
-export GOPATH=$HOME/.local/share/go
+export GOPATH=$HOME/go
 
 typeset -U path
 path=(

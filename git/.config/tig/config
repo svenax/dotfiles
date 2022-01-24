@@ -56,7 +56,7 @@ set main-view	= line-number:no,interval=5 id:no date:default author:abbreviated 
 set refs-view	= date:default author:full ref commit-title
 set stash-view	= line-number:no,interval=5 id:no date:default author:full commit-title
 set status-view	= line-number:no,interval=5 status:short file-name
-set tree-view	= line-number:no,interval=5 mode author:full file-size date:default id:no file-name
+set tree-view	= line-number:no,interval=5 mode author:abbreviated file-size date:default id:no file-name
 
 # Pager based views
 set pager-view	= line-number:no,interval=5 text
@@ -68,7 +68,7 @@ set diff-view	= line-number:no,interval=5 text:yes,commit-title-overflow=no
 # UI display settings
 set show-changes		= yes		# Show changes commits in the main view?
 set wrap-lines			= no		# Wrap long lines in pager views?
-set tab-size			= 8		# Number of spaces to use when expanding tabs
+set tab-size			= 8		    # Number of spaces to use when expanding tabs
 set line-graphics		= default	# Enum: ascii, default, utf-8
 
 # Format reference names based on type.
@@ -96,18 +96,18 @@ set show-notes			= yes		# When non-bool passed as `--show-notes=...` (diff)
 
 # Misc
 set refresh-mode		= auto		# Enum: manual, auto, after-command, periodic
-set refresh-interval		= 10		# Interval in seconds between refreshes
+set refresh-interval	= 10		# Interval in seconds between refreshes
 set ignore-case			= no		# Ignore case when searching?
 set focus-child			= yes		# Move focus to child view when opened?
-set horizontal-scroll		= 50%		# Number of columns to scroll as % of width
-set split-view-height		= 67%		# Height of the bottom view for horizontal splits
+set horizontal-scroll	= 50%		# Number of columns to scroll as % of width
+set split-view-height	= 67%		# Height of the bottom view for horizontal splits
 set vertical-split		= auto		# Enum: horizontal, vertical, auto; Use auto to
 						# switch to horizontal split when width allows it
-set split-view-width		= 50%		# Width of right-most view for vertical splits
-set editor-line-number		= yes		# Automatically pass line number to editor? Used
+set split-view-width	= 50%		# Width of right-most view for vertical splits
+set editor-line-number	= yes		# Automatically pass line number to editor? Used
 						# for opening file at specific line e.g. from a diff
-set mouse			= no		# Enable mouse support?
-set mouse-scroll		= 3		# Number of lines to scroll via the mouse
+set mouse				= no		# Enable mouse support?
+set mouse-scroll		= 3			# Number of lines to scroll via the mouse
 
 # User-defined commands
 # ---------------------
@@ -134,7 +134,7 @@ set mouse-scroll		= 3		# Number of lines to scroll via the mouse
 #   %(remote)		The current remote name.
 #   %(tag)		The current tag name.
 #   %(stash)		The current stash name.
-#   %(directory)	The current directory path in the tree view; 
+#   %(directory)	The current directory path in the tree view;
 #			empty for the root directory.
 #   %(file)		The currently selected file.
 #   %(ref)		The reference given to blame or HEAD if undefined.
