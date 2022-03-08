@@ -77,6 +77,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
 export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_BUNDLE_FILE=~/Brewfile
 
 export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'

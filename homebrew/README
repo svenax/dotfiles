@@ -1,0 +1,3 @@
+First run `brew install mas-cli` then `brew bundle install` to install
+everything listed in `Brewfile`. This is the easiest way to get a new computer
+up and running.
