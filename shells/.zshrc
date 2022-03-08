@@ -1,19 +1,21 @@
 autoload -U compinit && compinit
 autoload -U zmv
 
-# Plugins =====================================================================
+# Plugins ======================================================================
 
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplugs=()
 
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
+zplug 'zsh-users/zsh-autosuggestions'
 zplug 'agkozak/zsh-z'
+zplug 'johanhaleby/kubetail'
 zplug check || zplug install
 zplug load
 
-# Configuration ===============================================================
+# Configuration ================================================================
 
 # Passwords and stuff. Not included in the repo!
 [ -f ~/dotfiles/secret/private ] && source ~/dotfiles/secret/private
@@ -74,12 +76,14 @@ export COMPOSE_FILES
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
+export HOMEBREW_NO_ENV_HINTS=1
+
 export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'
 
 export ZSHZ_DATA=~/.cache/zshz/data
 
-# Aliases =====================================================================
+# Aliases ======================================================================
 
 alias '..'='cd ..'
 alias -g ...='../..'
@@ -132,9 +136,67 @@ function killport() {
   lsof -t -i TCP:$1 -s TCP:LISTEN | xargs kill -9
 }
 
-# Prompt ======================================================================
+# Prompt etc. ==================================================================
 
 eval "$($(brew --prefix)/bin/starship init zsh)"
-eval "$(fnm env)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+
+ export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
+# Work =========================================================================
+
+export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
+export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
+export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
+
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+export PYENV_ROOT="$HOME/.pyenv"
+
+alias -g ovpn='openfortivpn -c ~/.config/openfortivpn/config'
+
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+[ -f ~/google-cloud-sdk/path.zsh.inc ] && source ~/google-cloud-sdk/path.zsh.inc
+[ -f ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
+
+path+=($KUBE_DIR $PYENV_ROOT/bin ~/Library/Application\ Support/multipass/bin)
+
+# Add completion for kontrol
+source <(kubectl completion zsh)
+# source <(kontrol completion)
+
+# Convenient alias for kubectl
+alias kc='kubectl'
+compdef __start_kubectl kc
+
+# Alias for kubetail with sensible defaults
+kt () {
+  kubetail $@ --regex --line-buffered --timestamps
+}
+
+# alias for flask command with set environment variables
+flask-local () {
+  if { [ "$1" = db ] && [[ $(basename "$PWD") == *"-service" ]]} then
+    export SERVICE_NAME=$(basename "$PWD" | sed -e "s/-service//" | sed "s/-/_/g")
+    export DATABASE_URI="postgresql://postgres@servicedatabase01.dev.local/${SERVICE_NAME}_migrations"
+    export EVENT_PRODUCER_DB_URI=''
+    export BROKER_URI=''
+    export FLASK_APP=$SERVICE_NAME
+    export SQLALCHEMY_DATABASE_URI=$DATABASE_URI
+    export FLASK_APP=$SERVICE_NAME echo $FLASK_APP
+    if [ "$2" = create ]; then
+      CREATE_DB_COMMAND="create database ${SERVICE_NAME}_migrations"
+      docker exec -ti service-database psql -U postgres -c $CREATE_DB_COMMAND
+    fi
+  fi
+
+  if ! { [ "$1" = db ] && [ "$2" = create ] } then
+    command flask "$@";
+  fi
+}

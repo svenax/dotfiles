@@ -24,7 +24,8 @@
         slog = log --pretty="format:'%C(yellow)%h%Creset %ar by %an: %s'"
 [user]
 	name = Sven Axelsson
-	email = himself@svenax.net
+	email = sven.axelsson@kvdbil.se
+	# email = himself@svenax.net
 [core]
 	excludesfile = ~/.config/git/ignore
         precomposeunicode = true
