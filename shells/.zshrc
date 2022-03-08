@@ -60,9 +60,6 @@ bindkey -s "\C-r" "\eqhstr\n"
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
-NEWLINE=$'\n'
-PWNL=$PASSWORD_SECRET$NEWLINE
-
 export DISPLAY=:0
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -97,7 +94,6 @@ alias ll='ls -l'
 alias la='ls -a'
 alias gl='glances --theme-white'
 alias mkdir='mkdir -pv'
-alias ssudo="echo '$PWNL'|sudo -p '' -kS"
 
 alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
 alias brewug='brew upgrade && brew upgrade --cask'
