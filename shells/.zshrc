@@ -55,10 +55,8 @@ SAVEHIST=50000
 alias hh=hstr
 export HISTFILE=~/.zsh_history
 export HH_CONFIG=hicolor
-bindkey -s "\C-r" "\eqhstr\n"
 
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
+bindkey -v
 
 export DISPLAY=:0
 export LANG=en_US.UTF-8
