@@ -9,7 +9,7 @@ zplugs=()
 
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
-zplug 'zsh-users/zsh-autosuggestions'
+zplug 'jeffreytse/zsh-vi-mode'
 zplug 'agkozak/zsh-z'
 zplug 'johanhaleby/kubetail'
 zplug check || zplug install
@@ -56,8 +56,6 @@ alias hh=hstr
 export HISTFILE=~/.zsh_history
 export HH_CONFIG=hicolor
 
-bindkey -v
-
 export DISPLAY=:0
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -76,6 +74,8 @@ export HOMEBREW_BUNDLE_FILE=~/Brewfile
 
 export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'
+export ZVM_VI_EDITOR=vim
+export ZVM_VI_SURROUND_BINDKEY=s-prefix
 
 export ZSHZ_DATA=~/.cache/zshz/data
 
@@ -139,8 +139,8 @@ eval "$($(brew --prefix)/bin/starship init zsh)"
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
  export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+  [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 # Work =========================================================================
 
