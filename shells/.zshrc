@@ -170,12 +170,12 @@ source <(kubectl completion zsh)
 alias kc='kubectl'
 compdef __start_kubectl kc
 
-# Alias for kubetail with sensible defaults
+# Use stern instead of kubetail, it is nicer
 kt () {
-  kubetail $@ --regex --line-buffered --timestamps
+  stern $@ -t
 }
 
-# alias for flask command with set environment variables
+# Alias for flask command with set environment variables
 flask-local () {
   if { [ "$1" = db ] && [[ $(basename "$PWD") == *"-service" ]]} then
     export SERVICE_NAME=$(basename "$PWD" | sed -e "s/-service//" | sed "s/-/_/g")

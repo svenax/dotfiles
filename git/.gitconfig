@@ -24,8 +24,9 @@
         slog = log --pretty="format:'%C(yellow)%h%Creset %ar by %an: %s'"
 [user]
 	name = Sven Axelsson
-	email = sven.axelsson@kvdbil.se
-	# email = himself@svenax.net
+	email = himself@svenax.net
+[includeIf "gitdir:~/Develop/kvd/"]
+	path = ~/.config/git/work.gitconfig
 [core]
 	excludesfile = ~/.config/git/ignore
         precomposeunicode = true
