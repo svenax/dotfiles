@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+. "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -U compinit && compinit
 autoload -U zmv
 
@@ -195,3 +197,6 @@ flask-local () {
     command flask "$@";
   fi
 }
+
+# Fig post block. Keep at the bottom of this file.
+. "$HOME/.fig/shell/zshrc.post.zsh"
