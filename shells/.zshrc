@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -U compinit && compinit
 autoload -U zmv
 
@@ -13,7 +13,6 @@ zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'jeffreytse/zsh-vi-mode'
 zplug 'agkozak/zsh-z'
-zplug 'johanhaleby/kubetail'
 zplug check || zplug install
 zplug load
 
@@ -146,6 +145,8 @@ eval "$($(brew --prefix)/bin/starship init zsh)"
 
 # Work =========================================================================
 
+ssh-add ~/.ssh/id_rsa_kvdbil
+
 export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
 export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
 export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
@@ -177,9 +178,18 @@ kt () {
   stern $@ -t
 }
 
+kc-bidding-fee () {
+   kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
+   kc exec --context=production -it deployment/process-object -- flask update-bidding-fee --fee $1 --process_object_id $2
+}
+
+kc-start-bid () {
+   kc exec --context=production -it deployment/auction -- flask update-start-bid --start_bid $1 --process_object_id $2
+}
+
 # Alias for flask command with set environment variables
 flask-local () {
-  if { [ "$1" = db ] && [[ $(basename "$PWD") == *"-service" ]]} then
+  if [[ $(basename "$PWD") == *"-service" ]] then
     export SERVICE_NAME=$(basename "$PWD" | sed -e "s/-service//" | sed "s/-/_/g")
     export DATABASE_URI="postgresql://postgres@servicedatabase01.dev.local/${SERVICE_NAME}_migrations"
     export EVENT_PRODUCER_DB_URI=''
@@ -199,4 +209,4 @@ flask-local () {
 }
 
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
