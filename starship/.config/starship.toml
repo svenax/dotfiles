@@ -8,6 +8,7 @@ stashed = ""
 
 [status]
 format = '[\[$status-$common_meaning$signal_name\]]($style) '
+disabled = false
 
 [hg_branch]
 disabled = true
