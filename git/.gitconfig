@@ -42,14 +42,14 @@
         current = bold
         remote = yellow
 [diff]
-        tool = kaleidoscope
+	tool = Kaleidoscope
 [difftool]
-        prompt = false
+	prompt = false
 [merge]
-	tool = kaleidoscope
+	tool = Kaleidoscope
 [mergetool]
         keepBackup = true
-        prompt = false
+	prompt = false
 [push]
         default = current
 [rerere]
@@ -61,3 +61,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustExitCode = true
