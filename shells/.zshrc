@@ -9,7 +9,6 @@ export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 zplugs=()
 
-zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'jeffreytse/zsh-vi-mode'
 zplug 'agkozak/zsh-z'
@@ -64,7 +63,8 @@ export LC_COLLATE=se_SV.UTF-8
 export LC_CTYPE=se_SV.UTF-8
 export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
-export PAGER=less
+export PAGER=bat
+export BAT_THEME="Solarized (light)"
 
 export COMPOSE_FILES
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -156,10 +156,12 @@ export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
 export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
 export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
 
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT="$HOME/.pyenv"
 
-alias -g ovpn='openfortivpn -c ~/.config/openfortivpn/config'
+alias -g ovpn='sudo openfortivpn -c ~/.config/openfortivpn/config'
 
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
@@ -211,6 +213,14 @@ flask-local () {
   if ! { [ "$1" = db ] && [ "$2" = create ] } then
     command flask "$@";
   fi
+}
+
+prepare () {
+  pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.11 $(cat .python-version)
+  pip install -U pip pip-tools
+  rm requirements.txt
+  pip-compile
+  pip install -r requirements.txt
 }
 
 # Fig post block. Keep at the bottom of this file.

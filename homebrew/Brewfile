@@ -5,11 +5,16 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "ubuntu/microk8s"
 brew "openssl@1.1"
+brew "awscli"
+brew "bat"
 brew "bison"
+brew "borgbackup"
 brew "libffi"
+brew "freetds"
 brew "php"
 brew "composer"
 brew "cookiecutter"
+brew "cruft"
 brew "espeak"
 brew "fd"
 brew "gnutls"
@@ -21,6 +26,7 @@ brew "git-extras"
 brew "glances"
 brew "go"
 brew "graphviz"
+brew "hey"
 brew "hstr"
 brew "httpie"
 brew "node"
@@ -44,6 +50,7 @@ brew "postgresql"
 brew "pyenv"
 brew "pyenv-virtualenv"
 brew "ranger"
+brew "restic"
 brew "ripgrep"
 brew "rust"
 brew "semgrep"
@@ -59,8 +66,8 @@ cask "1password-cli"
 cask "adguard"
 cask "atext"
 cask "bartender"
+cask "bettertouchtool"
 cask "betterzip"
-cask "cardhop"
 cask "cleanmymac"
 cask "cleanshot"
 cask "dash"
@@ -93,7 +100,7 @@ cask "obsidian"
 cask "parallels"
 cask "paw"
 cask "pdf-expert"
-cask "postman"
+cask "raycast"
 cask "royal-tsx"
 cask "slack"
 cask "spotify"
@@ -102,6 +109,7 @@ cask "sublime-merge"
 cask "surfshark"
 cask "tableplus"
 cask "tower"
+cask "transmit"
 cask "typora"
 cask "ubar"
 cask "visual-studio-code"
@@ -114,6 +122,7 @@ mas "Forecast Bar", id: 982710545
 mas "forScore", id: 363738376
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
+mas "Kindle", id: 405399194
 mas "MacFamilyTree 10", id: 1567970985
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Ninox Database", id: 901110441
@@ -123,6 +132,7 @@ mas "Parcel", id: 639968404
 mas "Picsee", id: 1454805783
 mas "Pixelmator Pro", id: 1289583905
 mas "Reeder", id: 1529448980
+mas "Things", id: 904280696
 mas "Ulysses", id: 1225570693
 mas "Xcode", id: 497799835
 mas "Yoink", id: 457622435
