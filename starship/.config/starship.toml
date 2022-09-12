@@ -1,3 +1,5 @@
+# https://starship.rs/config/
+
 command_timeout = 1000
 
 [git_status]
@@ -10,7 +12,11 @@ stashed = ""
 format = '[\[$status-$common_meaning$signal_name\]]($style) '
 disabled = false
 
-[hg_branch]
+[aws]
+disabled = true
+[battery]
+disabled = true
+[crystal]
 disabled = true
 [dart]
 disabled = true
@@ -22,29 +28,27 @@ disabled = true
 disabled = true
 [erlang]
 disabled = true
+[gcloud]
+disabled = true
 [helm]
+disabled = true
+[hg_branch]
+disabled = true
+[jobs]
 disabled = true
 [julia]
 disabled = true
 [kotlin]
 disabled = true
+[memory_usage]
+disabled = true
 [nim]
 disabled = true
 [ocaml]
 disabled = true
+[openstack]
+disabled = true
 [purescript]
 disabled = true
 [zig]
-disabled = true
-[memory_usage]
-disabled = true
-[gcloud]
-disabled = true
-[openstack]
-disabled = true
-[crystal]
-disabled = true
-[jobs]
-disabled = true
-[battery]
 disabled = true

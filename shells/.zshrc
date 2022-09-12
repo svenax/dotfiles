@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 autoload -U compinit && compinit
 autoload -U zmv
 
@@ -67,6 +67,7 @@ export PAGER=bat
 export BAT_THEME="Solarized (light)"
 
 export COMPOSE_FILES
+export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
 export JAVA_HOME=$(/usr/libexec/java_home)
 export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
 
@@ -142,6 +143,10 @@ function killport() {
 eval "$($(brew --prefix)/bin/starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey '^T' fzf-file-widget
+bindkey '^V' fzf-cd-widget
+bindkey '^R' fzf-history-widget
+
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 
  export NVM_DIR="$HOME/.nvm"
@@ -224,4 +229,4 @@ prepare () {
 }
 
 # Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
