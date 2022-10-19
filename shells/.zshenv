@@ -23,6 +23,3 @@ fpath=(
     /opt/homebrew/share/zsh/site-functions
     $fpath
 )
-
-# eval "$(hub alias -s)"
-# eval "$(pipenv --completion)"

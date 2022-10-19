@@ -141,13 +141,16 @@ function killport() {
 # Prompt etc. ==================================================================
 
 eval "$($(brew --prefix)/bin/starship init zsh)"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-bindkey '^T' fzf-file-widget
-bindkey '^V' fzf-cd-widget
-bindkey '^R' fzf-history-widget
-
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+zvm_after_init() {
+  # We must postpone this until after zvm has set itself up
+  bindkey '^T' fzf-file-widget
+  bindkey '^V' fzf-cd-widget
+  bindkey '^R' fzf-history-widget
+}
+
 
  export NVM_DIR="$HOME/.nvm"
   [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
