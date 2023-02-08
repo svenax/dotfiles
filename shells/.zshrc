@@ -97,7 +97,6 @@ alias rg='rg -p'
 alias ls='ls -GF'
 alias ll='ls -l'
 alias la='ls -a'
-alias gl='glances --theme-white'
 alias mkdir='mkdir -pv'
 
 alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
@@ -164,10 +163,10 @@ export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
 export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
 export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
 
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT="$HOME/.pyenv"
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 alias -g ovpn='sudo openfortivpn -c ~/.config/openfortivpn/config'
 
@@ -178,8 +177,6 @@ eval "$(pyenv virtualenv-init -)"
 [ -f ~/google-cloud-sdk/path.zsh.inc ] && source ~/google-cloud-sdk/path.zsh.inc
 [ -f ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
 
-path+=($KUBE_DIR $PYENV_ROOT/bin ~/Library/Application\ Support/multipass/bin)
-
 # Add completion for kontrol
 source <(kubectl completion zsh)
 # source <(kontrol completion)
@@ -187,11 +184,6 @@ source <(kubectl completion zsh)
 # Convenient alias for kubectl
 alias kc='kubectl'
 compdef __start_kubectl kc
-
-# Use stern instead of kubetail, it is nicer
-kt () {
-  stern $@ -t
-}
 
 kc-bidding-fee () {
    kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
@@ -227,7 +219,7 @@ prepare () {
   pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.11 $(cat .python-version)
   pip install -U pip pip-tools
   rm requirements.txt
-  pip-compile
+  pip-compile --resolver=backtracking
   pip install -r requirements.txt
 }
 

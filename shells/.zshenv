@@ -7,7 +7,6 @@ path=(
     $GOPATH/bin
     ~/.composer/vendor/bin
     ~/.local/bin
-    /Library/TeX/texbin
     /opt/homebrew/bin
     /usr/local/bin
     /usr/local/sbin
