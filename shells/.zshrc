@@ -1,5 +1,6 @@
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+
 autoload -U compinit && compinit
 autoload -U zmv
 
@@ -11,7 +12,6 @@ zplugs=()
 
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'jeffreytse/zsh-vi-mode'
-zplug 'agkozak/zsh-z'
 zplug check || zplug install
 zplug load
 
@@ -63,8 +63,12 @@ export LC_COLLATE=se_SV.UTF-8
 export LC_CTYPE=se_SV.UTF-8
 export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
-export PAGER=bat
-export BAT_THEME="Solarized (light)"
+export PAGER=less
+
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
 
 export COMPOSE_FILES
 export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
@@ -79,12 +83,7 @@ export EDITOR='code -nw'
 export ZVM_VI_EDITOR=vim
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
 
-export ZSHZ_DATA=~/.cache/zshz/data
-
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_HOME=$HOME/.local/share
-export XDG_STATE_HOME=$HOME/.local/state
+export _ZO_DATA_DIR=$XDG_DATA_HOME
 
 # Aliases ======================================================================
 
@@ -99,7 +98,7 @@ alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
 
-alias brewup='brew update && echo -e "==> \033[1mOutdated brews\033[0m" && brew outdated'
+alias brewup='brew update && brew outdated'
 alias brewug='brew upgrade && brew upgrade --cask'
 
 alias -g G='|rg'
@@ -151,9 +150,9 @@ zvm_after_init() {
 }
 
 
- export NVM_DIR="$HOME/.nvm"
-  [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-  [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 # Work =========================================================================
 
@@ -170,20 +169,19 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 alias -g ovpn='sudo openfortivpn -c ~/.config/openfortivpn/config'
 
-eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/google-cloud-sdk/path.zsh.inc ] && source ~/google-cloud-sdk/path.zsh.inc
 [ -f ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
 
-# Add completion for kontrol
-source <(kubectl completion zsh)
-# source <(kontrol completion)
-
-# Convenient alias for kubectl
+eval "$(kubectl completion zsh)"
 alias kc='kubectl'
 compdef __start_kubectl kc
+
+eval "$(kontrol completion)"
+
+# source <($KUBE_DIR/kontrol completion)
 
 kc-bidding-fee () {
    kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
@@ -216,12 +214,14 @@ flask-local () {
 }
 
 prepare () {
-  pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.11 $(cat .python-version)
+  pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.13 $(cat .python-version)
   pip install -U pip pip-tools
   rm requirements.txt
   pip-compile --resolver=backtracking
   pip install -r requirements.txt
 }
+
+eval "$(zoxide init zsh)"
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
