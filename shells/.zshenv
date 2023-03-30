@@ -1,6 +1,3 @@
-export SAXON=/usr/local/bin/saxon
-export GOPATH=$HOME/go
-
 typeset -U path
 path=(
     ~/bin
@@ -22,3 +19,12 @@ fpath=(
     /opt/homebrew/share/zsh/site-functions
     $fpath
 )
+
+export GOPATH=$HOME/go
+export JAVA_HOME=$(/usr/libexec/java_home)
+export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
+
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state

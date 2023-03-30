@@ -10,7 +10,7 @@
         pullall = !~/bin/git-pullall.sh
         pullo = pull -s recursive -X ours
         pullr = pull --rebase --autostash
-        pullt = pull --strategy=recursive -X theirs
+        pullt = pull -s recursive -X theirs
         pushf = push --force-with-lease
         rebase-merge = !~/bin/git-rebase-via-merge.sh
         st = status

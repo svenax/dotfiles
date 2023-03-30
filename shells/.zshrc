@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 
@@ -12,6 +19,7 @@ zplugs=()
 
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'jeffreytse/zsh-vi-mode'
+zplug 'agkozak/zsh-z'
 zplug check || zplug install
 zplug load
 
@@ -65,16 +73,6 @@ export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export PAGER=less
 
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_HOME=$HOME/.local/share
-export XDG_STATE_HOME=$HOME/.local/state
-
-export COMPOSE_FILES
-export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
-export JAVA_HOME=$(/usr/libexec/java_home)
-export XML_CATALOG_FILES=/usr/local/etc/xml/catalog
-
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_BUNDLE_FILE=~/Brewfile
 
@@ -82,6 +80,14 @@ export ALTERNATE_EDITOR=''
 export EDITOR='code -nw'
 export ZVM_VI_EDITOR=vim
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
+
+export GOPATH=$HOME/go
+export JAVA_HOME=$(/usr/libexec/java_home)
+export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 export _ZO_DATA_DIR=$XDG_DATA_HOME
 
@@ -138,7 +144,7 @@ function killport() {
 
 # Prompt etc. ==================================================================
 
-eval "$($(brew --prefix)/bin/starship init zsh)"
+# eval "$($(brew --prefix)/bin/starship init zsh)"
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -148,11 +154,6 @@ zvm_after_init() {
   bindkey '^V' fzf-cd-widget
   bindkey '^R' fzf-history-widget
 }
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 # Work =========================================================================
 
@@ -177,11 +178,17 @@ eval "$(pyenv virtualenv-init -)"
 
 eval "$(kubectl completion zsh)"
 alias kc='kubectl'
+
+alias kca='kubectl apply -f'
+alias kcn='kubectl -n kube-system'
+alias kcp='kubectl get pods -L tag'
+alias kcl='kubectl logs -f'
+alias kcu='kubectl config use-context'
+alias kcc='kubectl config current-context'
+
 compdef __start_kubectl kc
 
 eval "$(kontrol completion)"
-
-# source <($KUBE_DIR/kontrol completion)
 
 kc-bidding-fee () {
    kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
@@ -199,6 +206,7 @@ flask-local () {
     export DATABASE_URI="postgresql://postgres@servicedatabase01.dev.local/${SERVICE_NAME}_migrations"
     export EVENT_PRODUCER_DB_URI=''
     export BROKER_URI=''
+    export SPARKPOST_API_KEY=''
     export FLASK_APP=$SERVICE_NAME
     export SQLALCHEMY_DATABASE_URI=$DATABASE_URI
     export FLASK_APP=$SERVICE_NAME echo $FLASK_APP
@@ -221,7 +229,9 @@ prepare () {
   pip install -r requirements.txt
 }
 
-eval "$(zoxide init zsh)"
-
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
+source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
