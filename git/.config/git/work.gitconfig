@@ -1,3 +1,5 @@
 [user]
 	name = Sven Axelsson
 	email = sven.axelsson@kvdbil.se
+[mailmap]
+	file = ~/Develop/kvd/kvd-kube/mailmap

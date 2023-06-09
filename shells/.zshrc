@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
@@ -91,6 +91,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export _ZO_DATA_DIR=$XDG_DATA_HOME
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 # Aliases ======================================================================
 
 alias '..'='cd ..'
@@ -144,9 +146,11 @@ function killport() {
 
 # Prompt etc. ==================================================================
 
-# eval "$($(brew --prefix)/bin/starship init zsh)"
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$($(brew --prefix)/bin/starship init zsh)"
+if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+fi
 
 zvm_after_init() {
   # We must postpone this until after zvm has set itself up
@@ -157,7 +161,7 @@ zvm_after_init() {
 
 # Work =========================================================================
 
-ssh-add ~/.ssh/id_rsa_kvdbil
+ssh-add ~/.ssh/id_rsa_kvdbil > /dev/null 2>&1
 
 export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
 export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
@@ -233,5 +237,5 @@ prepare () {
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
-source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
