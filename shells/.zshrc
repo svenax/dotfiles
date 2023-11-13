@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 # Fig pre block. Keep at the top of this file.
 [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 
@@ -83,7 +76,6 @@ export ZVM_VI_SURROUND_BINDKEY=s-prefix
 
 export GOPATH=$HOME/go
 export JAVA_HOME=$(/usr/libexec/java_home)
-export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
@@ -192,7 +184,12 @@ alias kcc='kubectl config current-context'
 
 compdef __start_kubectl kc
 
-eval "$(kontrol completion)"
+# eval "$(kontrol completion)"
+
+kc-rollout () {
+  kc rollout restart deployment/$2 --context=$1
+  kc rollout status deployment/$2 --context=$1
+}
 
 kc-bidding-fee () {
    kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
@@ -227,15 +224,16 @@ flask-local () {
 
 prepare () {
   pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.13 $(cat .python-version)
+  pyenv activate $(cat .python-version)
   pip install -U pip pip-tools
   rm requirements.txt
   pip-compile --resolver=backtracking
   pip install -r requirements.txt
 }
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
-
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 # source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
