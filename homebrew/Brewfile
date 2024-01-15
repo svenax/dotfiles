@@ -30,7 +30,9 @@ brew "imagemagick"
 brew "jq"
 brew "k9s"
 brew "lastpass-cli"
+brew "lazygit"
 brew "lilypond"
+brew "lzop"
 brew "mas"
 brew "minikube"
 brew "nvm"
@@ -102,6 +104,24 @@ cask "vlc"
 cask "warp"
 cask "whatsapp"
 cask "yacreader"
+mas "1Password for Safari", id: 1569813296
+mas "Airmail", id: 918858936
+mas "Day One", id: 1055511498
+mas "Dropover", id: 1355679052
+mas "forScore", id: 363738376
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Kindle Classic", id: 405399194
+mas "MacFamilyTree 10", id: 1567970985
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Parcel", id: 639968404
+mas "Pixelmator Pro", id: 1289583905
+mas "Reeder", id: 1529448980
+mas "Telegram", id: 747648890
+mas "Things", id: 904280696
+mas "Xcode", id: 497799835
 vscode "42Crunch.vscode-openapi"
 vscode "adam-bender.commit-message-editor"
 vscode "adpyke.codesnap"

@@ -98,6 +98,8 @@ alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
 
+alias lg='lazygit'
+
 alias brewup='brew update && brew outdated'
 alias brewug='brew upgrade && brew upgrade --cask'
 
