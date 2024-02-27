@@ -69,8 +69,8 @@ export PAGER=less
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_BUNDLE_FILE=~/Brewfile
 
-export ALTERNATE_EDITOR=''
-export EDITOR='code -nw'
+export ALTERNATE_EDITOR=
+export EDITOR=(code -nw)
 export ZVM_VI_EDITOR=vim
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
 
@@ -215,7 +215,7 @@ flask-local () {
     export FLASK_APP=$SERVICE_NAME echo $FLASK_APP
     if [ "$2" = create ]; then
       CREATE_DB_COMMAND="create database ${SERVICE_NAME}_migrations"
-      docker exec -ti service-database psql -U postgres -c $CREATE_DB_COMMAND
+      podman exec -ti service-database psql -U postgres -c $CREATE_DB_COMMAND
     fi
   fi
 

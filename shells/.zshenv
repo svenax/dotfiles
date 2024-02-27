@@ -20,6 +20,7 @@ fpath=(
     $fpath
 )
 
+export CONTAINERS_MACHINE_PROVIDER=applehv
 export GOPATH=$HOME/go
 export JAVA_HOME=$(/usr/libexec/java_home)
 
