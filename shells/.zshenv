@@ -2,6 +2,7 @@ typeset -U path
 path=(
     ~/bin
     $GOPATH/bin
+    ~/.cargo/bin
     ~/.composer/vendor/bin
     ~/.local/bin
     /opt/homebrew/bin

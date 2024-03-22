@@ -1,6 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-
 autoload -U compinit && compinit
 autoload -U zmv
 
@@ -146,6 +143,8 @@ if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
 [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
 fi
 
+# [ -f "$HOME/.rye/env" ] && source "$HOME/.rye/env"
+
 zvm_after_init() {
   # We must postpone this until after zvm has set itself up
   bindkey '^T' fzf-file-widget
@@ -165,8 +164,6 @@ export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT="$HOME/.pyenv"
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-alias -g ovpn='sudo openfortivpn -c ~/.config/openfortivpn/config'
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
@@ -236,6 +233,3 @@ prepare () {
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 # source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

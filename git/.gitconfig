@@ -33,6 +33,7 @@
         quotepath = off
         whitespace = cr-at-eol
         pager = /usr/bin/less
+	editor = code --wait
 [color]
         branch = auto
         diff = auto

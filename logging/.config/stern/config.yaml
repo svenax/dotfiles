@@ -1,0 +1,4 @@
+max-log-requests: 300
+init-containers: false
+since: 15m
+exclude: healthcheck
