@@ -90,12 +90,13 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 
 alias rg='rg -p'
-alias ls='ls -GF'
+alias ls='ls -GFh'
 alias ll='ls -l'
 alias la='ls -a'
 alias mkdir='mkdir -pv'
 
 alias lg='lazygit'
+alias docker='podman'
 
 alias brewup='brew update && brew outdated'
 alias brewug='brew upgrade && brew upgrade --cask'
@@ -137,13 +138,8 @@ function killport() {
 
 # Prompt etc. ==================================================================
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(fzf --zsh)"
 eval "$($(brew --prefix)/bin/starship init zsh)"
-if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
-fi
-
-# [ -f "$HOME/.rye/env" ] && source "$HOME/.rye/env"
 
 zvm_after_init() {
   # We must postpone this until after zvm has set itself up
@@ -182,8 +178,12 @@ alias kcu='kubectl config use-context'
 alias kcc='kubectl config current-context'
 
 compdef __start_kubectl kc
-
 # eval "$(kontrol completion)"
+
+alias k9ss='k9s --context staging'
+alias k9sp='k9s --context production'
+
+source "$HOME/.rye/env"
 
 kc-rollout () {
   kc rollout restart deployment/$2 --context=$1
@@ -230,6 +230,9 @@ prepare () {
   pip install -r requirements.txt
 }
 
-# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
-# source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+sm-latest () {
+  cd $KVDBIL_REPO_BASE_DIR/service-modules
+  git fetch --tags -q
+  git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1
+  cd -
+}
