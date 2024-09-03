@@ -29,5 +29,6 @@ yabai -m config                                 \
 yabai -m rule --add app="^App Store$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Microsoft Teams$" manage=off
+yabai -m rule --add app="^TablePlus$" manage=off
 yabai -m rule --add app="^Finder$" title="(Co(py|nnect)|Move|Info|Pref)" manage=off
 yabai -m rule --add app="^System (Information|Preferences|Settings)$" manage=off

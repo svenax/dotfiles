@@ -90,6 +90,7 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 
 alias rg='rg -p'
+alias rgt='rg -tpy'
 alias ls='ls -GFh'
 alias ll='ls -l'
 alias la='ls -a'
