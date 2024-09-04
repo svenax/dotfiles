@@ -1,7 +1,7 @@
 hs.loadSpoon("SpoonInstall")
 Install = spoon.SpoonInstall
 
-Install:andUse("RecursiveBinder")
+hs.loadSpoon("RecursiveBinder")
 local singleKey = spoon.RecursiveBinder.singleKey
 
 local meta = {"ctrl", "alt"}
