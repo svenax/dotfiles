@@ -1,6 +1,9 @@
 hs.loadSpoon("SpoonInstall")
 Install = spoon.SpoonInstall
 
+Install:andUse("RecursiveBinder")
+local singleKey = spoon.RecursiveBinder.singleKey
+
 local meta = {"ctrl", "alt"}
 local meh = {"ctrl", "alt", "shift"}
 local hyper = {"ctrl", "alt", "cmd", "shift"}
@@ -36,9 +39,9 @@ hs.hotkey.bind(
 )
 
 -- Passwords
-local k = hs.hotkey.modal.new(meh, "p")
+local pk = hs.hotkey.modal.new(meh, "p")
 local pa = {}
-function k:entered()
+function pk:entered()
   pa = hs.alert(
     "Password mode\n1-tlah, 2-sa, 3-bih, 4-qo1\n5-@hs, 6-@sa, 7-@sk",
     hs.alert.defaultStyle,
@@ -49,21 +52,21 @@ end
 hs.fnutils.each(
   hs.settings.get("HSSecrets"), -- Set manually in settings manager
   function(p)
-    k:bind(
+    pk:bind(
       {"shift"}, p.key,
       function()
         pasteit(p.text)
         hs.alert.closeSpecific(pa)
-        k:exit()
+        pk:exit()
       end
     )
   end
 )
-k:bind(
+pk:bind(
   {}, "escape",
   function()
     hs.alert.closeSpecific(pa)
-    k:exit()
+    pk:exit()
   end
 )
 
@@ -146,11 +149,17 @@ hs.hotkey.bind({"alt"}, "k", function() yabai("window --focus south") end)
 hs.hotkey.bind({"alt"}, "i", function() yabai("window --focus north") end)
 hs.hotkey.bind({"alt"}, "l", function() yabai("window --focus east") end)
 
+-- Stack window within space
+hs.hotkey.bind({"alt", "cmd"}, "j", function() yabai("window --stack west") end)
+hs.hotkey.bind({"alt", "cmd"}, "k", function() yabai("window --stack south") end)
+hs.hotkey.bind({"alt", "cmd"}, "i", function() yabai("window --stack north") end)
+hs.hotkey.bind({"alt", "cmd"}, "l", function() yabai("window --stack east") end)
+
 -- Focus window within stack
-hs.hotkey.bind({"alt", "cmd"}, "j", function() yabai("window --focus stack.first") end)
-hs.hotkey.bind({"alt", "cmd"}, "k", function() yabai("window --focus stack.next") end)
-hs.hotkey.bind({"alt", "cmd"}, "i", function() yabai("window --focus stack.prev") end)
-hs.hotkey.bind({"alt", "cmd"}, "l", function() yabai("window --focus stack.recent") end)
+hs.hotkey.bind({"alt", "cmd", "shift"}, "j", function() yabai("window --focus stack.first") end)
+hs.hotkey.bind({"alt", "cmd", "shift"}, "k", function() yabai("window --focus stack.next") end)
+hs.hotkey.bind({"alt", "cmd", "shift"}, "i", function() yabai("window --focus stack.prev") end)
+hs.hotkey.bind({"alt", "cmd", "shift"}, "l", function() yabai("window --focus stack.recent") end)
 
 -- Swap windows within space
 hs.hotkey.bind({"ctrl", "alt"}, "j", function() yabai("window --swap west") end)
@@ -164,13 +173,8 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "k", function() yabai("window --warp sout
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "i", function() yabai("window --warp north") end)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "l", function() yabai("window --warp east") end)
 
-hs.hotkey.bind(meh, "f", function() yabai("window --toggle zoom-fullscreen") end)
-hs.hotkey.bind(meh, "d", function() yabai("window --toggle float --grid 4:4:1:1:2:2") end)
-hs.hotkey.bind(meh, "b", function() yabai("space --balance") end)
-
-hs.hotkey.bind(meh, "r", function() yabai("space --rotate 270") end)
-hs.hotkey.bind(meh, "x", function() yabai("space --mirror x-axis") end)
-hs.hotkey.bind(meh, "y", function() yabai("space --mirror y-axis") end)
+hs.hotkey.bind(meh, "u", function() yabai("window --display west; yabai -m display --focus west") end)
+hs.hotkey.bind(meh, "o", function() yabai("window --display east; yabai -m display --focus east") end)
 
 local term_path = [[/opt/homebrew/bin/wezterm --config 'window_decorations="INTEGRATED_BUTTONS|RESIZE"']]
 hs.hotkey.bind(meh, "\\", function() os.execute(term_path .. " start --always-new-process &") end)
@@ -179,6 +183,20 @@ hs.hotkey.bind(meh, "\\", function() os.execute(term_path .. " start --always-ne
 local stackline = require "stackline"
 stackline:init({paths = {yabai = yabai_path}})
 stackline.config:toggle("appearance.showIcons")
+
+-- Visual menu for less common stuff
+local yabaiMap = {
+  [singleKey("s", "Space +")] = {
+    [singleKey("r", "Rotate")] = function() yabai("space --rotate 270") end,
+    [singleKey("x", "Mirror x-axis")] = function() yabai("space --mirror x-axis") end,
+    [singleKey("y", "Mirror y-axis")] = function() yabai("space --mirror y-axis") end,
+    [singleKey("b", "Balance")] = function() yabai("space --balance") end
+  },
+  [singleKey("f", "Fullscreen")] = function() yabai("window --toggle zoom-fullscreen") end,
+  [singleKey("F", "Native fullscreen")] = function() yabai("window --toggle native-fullscreen") end,
+  [singleKey("d", "Detach")] = function() yabai("window --toggle float --grid 4:4:1:1:2:2") end
+}
+hs.hotkey.bind(meh, "y", spoon.RecursiveBinder.recursiveBind(yabaiMap))
 
 -- Configuration switching -----------------------------------------------------
 

@@ -1,2 +1,3 @@
 *.spoon
+!RecursiveBinder.spoon
 !SpoonInstall.spoon
