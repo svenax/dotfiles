@@ -39,53 +39,14 @@ hs.hotkey.bind(
 )
 
 -- Passwords
-local pk = hs.hotkey.modal.new(meh, "p")
-local pa = {}
-function pk:entered()
-  pa = hs.alert(
-    "Password mode\n1-tlah, 2-sa, 3-bih, 4-qo1\n5-@hs, 6-@sa, 7-@sk",
-    hs.alert.defaultStyle,
-    hs.screen.mainScreen(),
-    "inf"
-  )
-end
+local passMap = {}
 hs.fnutils.each(
   hs.settings.get("HSSecrets"), -- Set manually in settings manager
-  function(p)
-    pk:bind(
-      {"shift"}, p.key,
-      function()
-        pasteit(p.text)
-        hs.alert.closeSpecific(pa)
-        pk:exit()
-      end
-    )
+  function(item)
+    passMap[{{"shift"}, item.key, item.title}] = function() pasteit(item.text) end
   end
 )
-pk:bind(
-  {}, "escape",
-  function()
-    hs.alert.closeSpecific(pa)
-    pk:exit()
-  end
-)
-
--- Translate selection
-hs.hotkey.bind(
-  meh, "0",
-  function()
-    hs.eventtap.keyStroke({"cmd"}, "c")
-    hs.dialog.alert(
-      300, 300,
-      function()
-        return exec("pbpaste|trans -b", false)
-      end,
-      "Translation",
-      "",
-      "Close"
-    )
-  end
-)
+hs.hotkey.bind(meh, "p", spoon.RecursiveBinder.recursiveBind(passMap))
 
 -- Window management -----------------------------------------------------------
 
@@ -187,7 +148,8 @@ stackline.config:toggle("appearance.showIcons")
 -- Visual menu for less common stuff
 local yabaiMap = {
   [singleKey("s", "Space +")] = {
-    [singleKey("r", "Rotate")] = function() yabai("space --rotate 270") end,
+    [singleKey("r", "Rotate left")] = function() yabai("space --rotate 270") end,
+    [singleKey("R", "Rotate right")] = function() yabai("space --rotate 90") end,
     [singleKey("x", "Mirror x-axis")] = function() yabai("space --mirror x-axis") end,
     [singleKey("y", "Mirror y-axis")] = function() yabai("space --mirror y-axis") end,
     [singleKey("b", "Balance")] = function() yabai("space --balance") end
