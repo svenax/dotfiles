@@ -99,9 +99,14 @@ Install:andUse(
 
 local yabai_path = "/opt/homebrew/bin/yabai"
 
-function yabai(cmd)
+local function yabai(cmd)
   output = exec(yabai_path .. " -m " .. cmd , false)
   return output
+end
+
+local function yabai2(cmd1, cmd2)
+  yabai(cmd1)
+  return yabai(cmd2)
 end
 
 -- Focus window within space
@@ -134,9 +139,6 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "k", function() yabai("window --warp sout
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "i", function() yabai("window --warp north") end)
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "l", function() yabai("window --warp east") end)
 
-hs.hotkey.bind(meh, "u", function() yabai("window --display west; yabai -m display --focus west") end)
-hs.hotkey.bind(meh, "o", function() yabai("window --display east; yabai -m display --focus east") end)
-
 local term_path = [[/opt/homebrew/bin/wezterm --config 'window_decorations="INTEGRATED_BUTTONS|RESIZE"']]
 hs.hotkey.bind(meh, "\\", function() os.execute(term_path .. " start --always-new-process &") end)
 
@@ -154,9 +156,20 @@ local yabaiMap = {
     [singleKey("y", "Mirror y-axis")] = function() yabai("space --mirror y-axis") end,
     [singleKey("b", "Balance")] = function() yabai("space --balance") end
   },
-  [singleKey("f", "Fullscreen")] = function() yabai("window --toggle zoom-fullscreen") end,
-  [singleKey("F", "Native fullscreen")] = function() yabai("window --toggle native-fullscreen") end,
-  [singleKey("d", "Detach")] = function() yabai("window --toggle float --grid 4:4:1:1:2:2") end
+  [singleKey("z", "Zoom +")] = {
+    [singleKey("f", "Fullscreen")] = function() yabai("window --toggle zoom-fullscreen") end,
+    [singleKey("F", "Native")] = function() yabai("window --toggle native-fullscreen") end,
+    [singleKey("d", "Detach")] = function() yabai("window --toggle float --grid 4:4:1:1:2:2") end
+  },
+  [singleKey("m", "Move +")] = {
+    [singleKey("1", "Space 1")] = function() yabai2("window --space 1", "space --focus 1") end,
+    [singleKey("2", "Space 2")] = function() yabai2("window --space 2", "space --focus 2") end,
+    [singleKey("3", "Space 3")] = function() yabai2("window --space 3", "space --focus 3") end,
+    [singleKey("4", "Space 4")] = function() yabai2("window --space 4", "space --focus 4") end,
+    [singleKey("5", "Space 5")] = function() yabai2("window --space 5", "space --focus 5") end,
+    [singleKey("p", "Prev display")] = function() yabai2("window --display west", "display --focus west") end,
+    [singleKey("n", "Next display")] = function() yabai2("window --display east", "display --focus east") end
+  }
 }
 hs.hotkey.bind(meh, "y", spoon.RecursiveBinder.recursiveBind(yabaiMap))
 
