@@ -109,17 +109,17 @@ local function yabai2(cmd1, cmd2)
   return yabai(cmd2)
 end
 
--- Focus window within space
-hs.hotkey.bind({"alt"}, "j", function() yabai("window --focus west") end)
-hs.hotkey.bind({"alt"}, "k", function() yabai("window --focus south") end)
-hs.hotkey.bind({"alt"}, "i", function() yabai("window --focus north") end)
-hs.hotkey.bind({"alt"}, "l", function() yabai("window --focus east") end)
+local function jkil(mod, cmd)
+  hs.hotkey.bind(mod, "j", function() yabai(string.format("%s west", cmd)) end)
+  hs.hotkey.bind(mod, "k", function() yabai(string.format("%s south", cmd)) end)
+  hs.hotkey.bind(mod, "i", function() yabai(string.format("%s north", cmd)) end)
+  hs.hotkey.bind(mod, "l", function() yabai(string.format("%s east", cmd)) end)
+end
 
--- Stack window within space
-hs.hotkey.bind({"alt", "cmd"}, "j", function() yabai("window --stack west") end)
-hs.hotkey.bind({"alt", "cmd"}, "k", function() yabai("window --stack south") end)
-hs.hotkey.bind({"alt", "cmd"}, "i", function() yabai("window --stack north") end)
-hs.hotkey.bind({"alt", "cmd"}, "l", function() yabai("window --stack east") end)
+jkil({"alt"}, "window --focus")-- Focus window within space
+jkil({"alt", "cmd"}, "window --stack")-- Stack window within space
+jkil({"ctrl", "alt"}, "window --swap") -- Swap windows within space
+jkil({"ctrl", "alt", "cmd"}, "window --warp") -- Swap and split windows within space
 
 -- Focus window within stack
 hs.hotkey.bind({"alt", "cmd", "shift"}, "j", function() yabai("window --focus stack.first") end)
@@ -127,25 +127,8 @@ hs.hotkey.bind({"alt", "cmd", "shift"}, "k", function() yabai("window --focus st
 hs.hotkey.bind({"alt", "cmd", "shift"}, "i", function() yabai("window --focus stack.prev") end)
 hs.hotkey.bind({"alt", "cmd", "shift"}, "l", function() yabai("window --focus stack.recent") end)
 
--- Swap windows within space
-hs.hotkey.bind({"ctrl", "alt"}, "j", function() yabai("window --swap west") end)
-hs.hotkey.bind({"ctrl", "alt"}, "k", function() yabai("window --swap south") end)
-hs.hotkey.bind({"ctrl", "alt"}, "i", function() yabai("window --swap north") end)
-hs.hotkey.bind({"ctrl", "alt"}, "l", function() yabai("window --swap east") end)
-
--- Swap and split windows within space
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "j", function() yabai("window --warp west") end)
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "k", function() yabai("window --warp south") end)
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "i", function() yabai("window --warp north") end)
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "l", function() yabai("window --warp east") end)
-
 local term_path = [[/opt/homebrew/bin/wezterm --config 'window_decorations="INTEGRATED_BUTTONS|RESIZE"']]
 hs.hotkey.bind(meh, "\\", function() os.execute(term_path .. " start --always-new-process &") end)
-
--- Install stackline for visual indication of stack windows
-local stackline = require "stackline"
-stackline:init({paths = {yabai = yabai_path}})
-stackline.config:toggle("appearance.showIcons")
 
 -- Visual menu for less common stuff
 local yabaiMap = {
@@ -167,11 +150,18 @@ local yabaiMap = {
     [singleKey("3", "Space 3")] = function() yabai2("window --space 3", "space --focus 3") end,
     [singleKey("4", "Space 4")] = function() yabai2("window --space 4", "space --focus 4") end,
     [singleKey("5", "Space 5")] = function() yabai2("window --space 5", "space --focus 5") end,
-    [singleKey("p", "Prev display")] = function() yabai2("window --display west", "display --focus west") end,
-    [singleKey("n", "Next display")] = function() yabai2("window --display east", "display --focus east") end
+    [singleKey("p", "Win prev disp")] = function() yabai2("window --display west", "display --focus west") end,
+    [singleKey("n", "Win next disp")] = function() yabai2("window --display east", "display --focus east") end,
+    [singleKey("P", "Spc prev disp")] = function() yabai2("space --display west", "display --focus west") end,
+    [singleKey("N", "Spc next disp")] = function() yabai2("space --display east", "display --focus east") end
   }
 }
 hs.hotkey.bind(meh, "y", spoon.RecursiveBinder.recursiveBind(yabaiMap))
+
+-- Install stackline for visual indication of stack windows
+local stackline = require "stackline"
+stackline:init({paths = {yabai = yabai_path}})
+stackline.config:toggle("appearance.showIcons")
 
 -- Configuration switching -----------------------------------------------------
 
