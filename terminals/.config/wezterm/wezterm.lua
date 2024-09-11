@@ -1,4 +1,5 @@
 local wezterm = require "wezterm"
+local act = wezterm.action
 local config = {}
 
 function get_appearance()
@@ -20,5 +21,18 @@ config.font = wezterm.font("Cascadia Code NF", {weight = "Medium"})
 config.font_size = 15
 config.color_scheme = scheme_for_appearance(get_appearance())
 config.enable_tab_bar = false
+
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+config.keys = {
+    {
+        key = 'K',
+        mods = 'CMD',
+        action = act.Multiple {
+            act.ClearScrollback 'ScrollbackAndViewport',
+            act.SendKey { key = 'L', mods = 'CTRL' },
+        }
+    }
+}
 
 return config
