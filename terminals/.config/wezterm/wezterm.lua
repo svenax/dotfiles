@@ -2,6 +2,10 @@ local wezterm = require "wezterm"
 local act = wezterm.action
 local config = {}
 
+if wezterm.config_builder then
+    config = wezterm.config_builder()
+end
+
 function get_appearance()
     if wezterm.gui then
         return wezterm.gui.get_appearance()

@@ -67,7 +67,7 @@ export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_BUNDLE_FILE=~/Brewfile
 
 export ALTERNATE_EDITOR=
-export EDITOR=(code -nw)
+export EDITOR=code
 export ZVM_VI_EDITOR=vim
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
 
@@ -80,7 +80,7 @@ export NVM_DIR="$HOME/.nvm"
 
 export _ZO_DATA_DIR=$XDG_DATA_HOME
 
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+eval "$(direnv hook zsh)"
 
 # Aliases ======================================================================
 
@@ -90,7 +90,7 @@ alias -g ....='../../..'
 alias -g .....='../../../..'
 
 alias rg='rg -p'
-alias rgt='rg -tpy'
+alias rgpy='rg -tpy'
 alias ls='ls -GFh'
 alias ll='ls -l'
 alias la='ls -a'
@@ -157,13 +157,7 @@ export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
 export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
 export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
 
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-export PYENV_ROOT="$HOME/.pyenv"
-
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
 [ -f ~/google-cloud-sdk/path.zsh.inc ] && source ~/google-cloud-sdk/path.zsh.inc
 [ -f ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
@@ -184,52 +178,9 @@ compdef __start_kubectl kc
 alias k9ss='k9s --context staging'
 alias k9sp='k9s --context production'
 
-source "$HOME/.rye/env"
-
-kc-rollout () {
-  kc rollout restart deployment/$2 --context=$1
-  kc rollout status deployment/$2 --context=$1
-}
-
-kc-bidding-fee () {
-   kc exec --context=production -it deployment/auction -- flask update-bidding-fee --fee $1 --process_object_id $2
-   kc exec --context=production -it deployment/process-object -- flask update-bidding-fee --fee $1 --process_object_id $2
-}
-
-kc-start-bid () {
-   kc exec --context=production -it deployment/auction -- flask update-start-bid --start_bid $1 --process_object_id $2
-}
-
-# Alias for flask command with set environment variables
-flask-local () {
-  if [[ $(basename "$PWD") == *"-service" ]] then
-    export SERVICE_NAME=$(basename "$PWD" | sed -e "s/-service//" | sed "s/-/_/g")
-    export DATABASE_URI="postgresql://postgres@servicedatabase01.dev.local/${SERVICE_NAME}_migrations"
-    export EVENT_PRODUCER_DB_URI=''
-    export BROKER_URI=''
-    export SPARKPOST_API_KEY=''
-    export FLASK_APP=$SERVICE_NAME
-    export SQLALCHEMY_DATABASE_URI=$DATABASE_URI
-    export FLASK_APP=$SERVICE_NAME echo $FLASK_APP
-    if [ "$2" = create ]; then
-      CREATE_DB_COMMAND="create database ${SERVICE_NAME}_migrations"
-      podman exec -ti service-database psql -U postgres -c $CREATE_DB_COMMAND
-    fi
-  fi
-
-  if ! { [ "$1" = db ] && [ "$2" = create ] } then
-    command flask "$@";
-  fi
-}
-
-prepare () {
-  pyenv uninstall -f $(cat .python-version) && pyenv virtualenv 3.9.13 $(cat .python-version)
-  pyenv activate $(cat .python-version)
-  pip install -U pip pip-tools
-  rm requirements.txt
-  pip-compile --resolver=backtracking
-  pip install -r requirements.txt
-}
+dbproxys='cloud-sql-proxy --auto-iam-authn --private-ip gcp-development01:europe-north1:evergreen-staging -p 5432'
+dbproxyp='cloud-sql-proxy --auto-iam-authn --private-ip gcp-production01:europe-north1:evergreen-production -p5433'
+alias dbproxy='parallel --line-buffer --color ::: "$dbproxys" "$dbproxyp"'
 
 sm-latest () {
   cd $KVDBIL_REPO_BASE_DIR/service-modules

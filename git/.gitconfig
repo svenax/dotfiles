@@ -2,19 +2,20 @@
         br = branch
         ci = commit
         cia = commit -a --amend --no-edit
-        co = checkout
         g = grep --break --heading --line-number
         pick = cherry-pick
         pickt = cherry-pick --strategy=recursive -X theirs
-        pullall = !~/bin/git-pullall.sh
         pullo = pull -s recursive -X ours
         pullr = pull --rebase --autostash
         pullt = pull -s recursive -X theirs
         pushf = push --force-with-lease
-        rebase-merge = !~/bin/git-rebase-via-merge.sh
         st = status
+        sw = switch
         unstash = stash pop
-        delete-merged = !git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d
+        # Externals
+        delete-merged = "!git branch --merged | grep -v '^\\*\\|main\\|master' | xargs -n 1 git branch -d"
+        pullall = !~/bin/git-pullall.sh
+        rebase-merge = !~/bin/git-rebase-via-merge.sh
         # Logs
         changed = "!sh -c 'git log --name-only --pretty=\"%%\" \"$@\" | sort -u | sed \"1,2d\"' -"
         glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
@@ -28,7 +29,7 @@
 [includeIf "gitdir:~/Develop/kvd/"]
 	path = ~/.config/git/work.gitconfig
 [core]
-	excludesfile = ~/.config/git/ignore
+	excludesfile = /Users/svenax/.config/git/ignore
         precomposeunicode = true
         quotepath = off
         whitespace = cr-at-eol
@@ -69,3 +70,9 @@
 	trustExitCode = true
 [bulkworkspaces]
 	kvd = /Users/svenax/Develop/kvd
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
