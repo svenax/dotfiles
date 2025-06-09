@@ -9,7 +9,6 @@ zplugs=()
 
 zplug 'zsh-users/zsh-syntax-highlighting'
 zplug 'jeffreytse/zsh-vi-mode'
-zplug 'agkozak/zsh-z'
 zplug check || zplug install
 zplug load
 
@@ -80,8 +79,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export _ZO_DATA_DIR=$XDG_DATA_HOME
 
-eval "$(direnv hook zsh)"
-
 # Aliases ======================================================================
 
 alias '..'='cd ..'
@@ -132,21 +129,18 @@ function cdbrew() {
   cd $(brew --prefix $1)
 }
 
-# Kill processes listening to the given port
-function killport() {
-  lsof -t -i TCP:$1 -s TCP:LISTEN | xargs kill -9
-}
-
 # Prompt etc. ==================================================================
 
 eval "$(fzf --zsh)"
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 eval "$($(brew --prefix)/bin/starship init zsh)"
 
 zvm_after_init() {
   # We must postpone this until after zvm has set itself up
   bindkey '^T' fzf-file-widget
   bindkey '^V' fzf-cd-widget
-  bindkey '^R' fzf-history-widget
+  # bindkey '^R' fzf-history-widget
 }
 
 # Work =========================================================================
@@ -188,3 +182,6 @@ sm-latest () {
   git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1
   cd -
 }
+
+# Added by Windsurf
+export PATH="/Users/svenax/.codeium/windsurf/bin:$PATH"

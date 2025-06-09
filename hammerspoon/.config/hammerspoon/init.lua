@@ -12,7 +12,7 @@ local hyper = {"ctrl", "alt", "cmd", "shift"}
 
 -- Type arrows
 hs.hotkey.bind(
-  meh, ",", function() pasteit(" -> ") end
+  meh, ",", function() pasteit("->") end
 )
 hs.hotkey.bind(
   meh, ".", function() pasteit(" => ") end
