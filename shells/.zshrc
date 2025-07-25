@@ -49,7 +49,6 @@ HIST_STAMPS="yyyy-mm-dd"
 HISTSIZE=10000
 SAVEHIST=50000
 
-alias hh=hstr
 export HISTFILE=~/.zsh_history
 export HH_CONFIG=hicolor
 
@@ -69,13 +68,6 @@ export ALTERNATE_EDITOR=
 export EDITOR=code
 export ZVM_VI_EDITOR=vim
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
-
-export GOPATH=$HOME/go
-export JAVA_HOME=$(/usr/libexec/java_home)
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 export _ZO_DATA_DIR=$XDG_DATA_HOME
 
@@ -142,46 +134,3 @@ zvm_after_init() {
   bindkey '^V' fzf-cd-widget
   # bindkey '^R' fzf-history-widget
 }
-
-# Work =========================================================================
-
-ssh-add ~/.ssh/id_rsa_kvdbil > /dev/null 2>&1
-
-export KVDBIL_REPO_BASE_DIR="$HOME/Develop/kvd"
-export KUBE_DIR="$KVDBIL_REPO_BASE_DIR/kvd-kube"
-export KVD_TOOLS="$KVDBIL_REPO_BASE_DIR/tools"
-
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-[ -f ~/google-cloud-sdk/path.zsh.inc ] && source ~/google-cloud-sdk/path.zsh.inc
-[ -f ~/google-cloud-sdk/completion.zsh.inc ] && source ~/google-cloud-sdk/completion.zsh.inc
-
-eval "$(kubectl completion zsh)"
-alias kc='kubectl'
-
-alias kca='kubectl apply -f'
-alias kcn='kubectl -n kube-system'
-alias kcp='kubectl get pods -L tag'
-alias kcl='kubectl logs -f'
-alias kcu='kubectl config use-context'
-alias kcc='kubectl config current-context'
-
-compdef __start_kubectl kc
-# eval "$(kontrol completion)"
-
-alias k9ss='k9s --context staging'
-alias k9sp='k9s --context production'
-
-dbproxys='cloud-sql-proxy --auto-iam-authn --private-ip gcp-development01:europe-north1:evergreen-staging -p 5432'
-dbproxyp='cloud-sql-proxy --auto-iam-authn --private-ip gcp-production01:europe-north1:evergreen-production -p5433'
-alias dbproxy='parallel --line-buffer --color ::: "$dbproxys" "$dbproxyp"'
-
-sm-latest () {
-  cd $KVDBIL_REPO_BASE_DIR/service-modules
-  git fetch --tags -q
-  git tag --list | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n 1
-  cd -
-}
-
-# Added by Windsurf
-export PATH="/Users/svenax/.codeium/windsurf/bin:$PATH"

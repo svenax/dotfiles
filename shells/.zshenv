@@ -1,7 +1,6 @@
 typeset -U path
 path=(
     ~/bin
-    $GOPATH/bin
     ~/.cargo/bin
     ~/.composer/vendor/bin
     ~/.local/bin
@@ -22,8 +21,6 @@ fpath=(
 )
 
 export CONTAINERS_MACHINE_PROVIDER=applehv
-export GOPATH=$HOME/go
-export JAVA_HOME=$(/usr/libexec/java_home)
 
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
