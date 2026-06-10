@@ -1,0 +1,56 @@
+# https://starship.rs/config/
+
+command_timeout = 1000
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "${ahead_count}⇕${behind_count}"
+behind = "⇣${count}"
+stashed = ""
+
+[status]
+format = '[\[$status-$common_meaning$signal_name\]]($style) '
+disabled = false
+
+[aws]
+disabled = true
+[battery]
+disabled = true
+[crystal]
+disabled = true
+[dart]
+disabled = true
+[docker_context]
+disabled = true
+[dotnet]
+disabled = true
+[elixir]
+disabled = true
+[elm]
+disabled = true
+[erlang]
+disabled = true
+[gcloud]
+disabled = true
+[helm]
+disabled = true
+[hg_branch]
+disabled = true
+[jobs]
+disabled = true
+[julia]
+disabled = true
+[kotlin]
+disabled = true
+[memory_usage]
+disabled = true
+[nim]
+disabled = true
+[ocaml]
+disabled = true
+[openstack]
+disabled = true
+[purescript]
+disabled = true
+[zig]
+disabled = true
